@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      form {
+        margin-bottom: 20px;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+      label {
+        margin-bottom: 10px;
+      }
+      input[type="text"], select {
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      input[type="submit"] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Employee Management</h2>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department</th>
+      </tr>
+      <?php
+      $db = mysqli_connect("hostname", "username", "password", "database_name");
+      $result = mysqli_query($db, "SELECT * FROM employees");
+      while($row = mysqli_fetch_array($result)) {
+      echo "<tr>";
+      echo "<td>" . $row['id'] . "</td>";
+      echo "<td>" . $row['name'] . "</td>";
+      echo "<td>" . $row['department'] . "</td>";
+      echo "</tr>";
+      }
+  mysqli_close($db);
+  ?>
+</table>
+
+    <h3>Assign Employee to Team</h3>
+    <form>
+      <div class="form-group">
+        <label for="employee">Employee:</label>
+        <select id="employee" name=. $row['name'] .>
+          <option value=. $row['name'] .>. $row['name'] .</option>
+          <option value=. $row['name'] .>. $row['name'] .</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="team">Team:</label>
+        <select id="team" name="team">
+          <option value="Marketing">Marketing</option>
+          <option value="Development">Development</option>
+          <option value="Design">Design</option>
+        </select>
+      </div>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

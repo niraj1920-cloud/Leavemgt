@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Style for header */
+      header {
+        background-color: #ddd;
+        padding: 20px;
+        text-align: center;
+      }
+
+      /* Style for profile container */
+      .profile-container {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #ddd;
+      }
+
+      /* Style for profile details */
+      .profile-details {
+        width: 80%
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .profile-details input[type="text"] {
+        width: 50%;
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 18px;
+      }
+
+      /* Style for profile label */
+      .profile-label {
+        font-weight: bold;
+        margin-right: 10px;
+        width: 40%;
+      }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <h1>Profile</h1>
+    </header>
+
+    <!-- Profile container -->
+    <div class="profile-container">
+      <h2>Personal Information</h2>
+      <form>
+        <div class="profile-details">
+
+          <p>
+            <span class="profile-label">First Name:</span>
+            <input type="text" value="{{ profile.fname }}">
+          </p>
+
+          <p>
+            <span class="profile-label">Last Name:</span>
+            <input type="text" value="{{ profile.lname }}">
+          </p>
+
+          <p>
+            <span class="profile-label">Employee ID:</span>
+            <input type="text" value="{{ profile.emp_id }}">
+          </p>
+
+          <p>
+            <span class="profile-label">Date Of Birth:</span>
+            <input type="text" value="{{ profile.DOB }}">
+          </p>
+
+          <p>
+            <span class="profile-label">Phone Number:</span>
+            <input type="text" value="{{ profile.phone_number }}">
+          </p>
+
+          <p>
+            <span class="profile-label">Email:</span>
+            <input type="text" value="{{ profile.email }}">
+          </p>
+
+          <p>
+            <span class="profile-label">Department:</span>
+            <input type="text" value="{{ profile.department }}">
+          </p>
+
+          <p>
+            <span class="profile-label">Designation:</span>
+            <input type="text" value="{{ profile.designation }}">
+          </p>
+
+          <p>
+            <span class="profile-label">Date Of Joining:</span>
+            <input type="text" value="{{ profile.doj }}">
+          </p>
+
+          <p>
+            <span class="profile-label">Address:</span>
+            <input type="text" value="{{ profile.address }}">
+          </p>
+
+          <br>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
