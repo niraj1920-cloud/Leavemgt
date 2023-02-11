@@ -1,56 +1,59 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Leave Approval/Rejection Page</title>
-  <style>
-    h2 {
-      background-color: black;
-      color: white;
-      padding: 8px;
-      text-align: center;
-    }
+  <head>
+    <title>Leave Approval/Rejection Page</title>
+    <style>
+      h2 {
+        background-color: black;
+        color: white;
+        padding: 8px;
+        text-align: center;
+      }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
 
-    th, td {
-      border: 1px solid black;
-      padding: 8px;
-      text-align: left;
-    }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
 
-    th {
-      background-color: #f2f2f2;
-    }
-  </style>
-</head>
-<body>
-  <h2>Leave Requests</h2>
-  <table>
-    <tr>
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Leave Requests</h2>
+    <table>
+      <tr>
         <th>Employee ID</th>
-      <th>Employee Name</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>Reason</th>
-      <th>Action</th>
-    </tr>
-    <tr>
-      {% for leave in leave_data %}
-      <td>{{ leave.employee.emp_id }}</td>
-      <td>{{ leave.employee.fname}} {{leave.employee.lname}}</td>
+        <th>Employee Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Days</th>
+        <th>Reason</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        {% for leave in leave_data %}
+        <td>{{ leave.employee.emp_id }}</td>
+        <td>{{ leave.employee.fname}} {{leave.employee.lname}}</td>
 
-      <td>{{ leave.start_date }}</td>
-      <td>{{ leave.end_date }}</td>
-      <td>{{ leave.reason }}</td>
-      <td>
-        <input type="submit" value="Approve">
-        <input type="submit" value="Reject">
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
-</body>
+        <td>{{ leave.start_date }}</td>
+        <td>{{ leave.end_date }}</td>
+        <td>{{ leave.days }}</td>
+        <td>{{ leave.reason }}</td>
+        <td>
+          <input type="submit" value="Approve" />
+          <input type="submit" value="Reject" />
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
 </html>

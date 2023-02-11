@@ -34,9 +34,10 @@ class Employee(models.Model):
 
 class LeaveForm(models.Model):
     employee = models.ForeignKey(Employee,default=1, on_delete=models.CASCADE)
-    start_date=models.CharField(max_length=50)
-    end_date=models.CharField(max_length=50)
+    start_date=models.DateTimeField()
+    end_date=models.DateTimeField()
     reason=models.CharField(max_length=100)
+    days=models.IntegerField(default=0)
 
     def __str__(self):
-        return self.employee.fname + " " + self.employee.lname + " ///  " + self.start_date + " to " + self.end_date
+        return self.employee.fname + " " + str(self.days)
