@@ -45,10 +45,10 @@ def navigation(request):
 
 def leave(request):
     if request.method=="POST":
-        # name=request.POST.get('name')
-        # email=request.POST.get('email')
-        # emp_id = request.POST.get('emp_id')
-        emp_id = request.user.id
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        emp_id = request.POST.get('emp_id')
+        #emp_id = request.user.id
         start_date=request.POST.get('start_date')
         end_date=request.POST.get('end_date')
         reason=request.POST.get('reason')
@@ -56,7 +56,10 @@ def leave(request):
         leaveform=LeaveForm(employee= employee,start_date=start_date,end_date=end_date,reason=reason)
         leaveform.save()
         messages.success(request,"Leave Details submitted successfully!")
-    return render(request, 'leave.html', {})
+    username = request.user.username
+    profile = Employee.objects.get(fname=username.capitalize())
+    print(profile)
+    return render(request, 'leave.html', {'profile': profile} )
 
 def logoutPage(request):
     logout(request)

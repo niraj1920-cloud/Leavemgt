@@ -8,14 +8,14 @@
   <form method="post">
     {% csrf_token %}
     <label for="emp_id">Employee ID:</label>
-    <input readonly type="text" id="emp_id" value="{{request.user.id}}" name="emp_id"><br><br>
+    <input readonly type="text" id="emp_id" value="{{profile.emp_id}}" name="emp_id"><br><br>
     <label for="name">Name:</label>
     <input readonly type="text" id="name"
-           value="{{request.user.first_name}}"
+           value="{{profile.fname }}"
            name="name"><br><br>
     <label for="email">Email:</label>
     <input readonly type="email" id="email"
-           value="{{request.user.email}}"
+           value="{{profile.email}}"
            name="email"><br><br>
     <label for="start_date">Start Date:</label>
     <input type="date" id="start_date" name="start_date"><br><br>
