@@ -34,17 +34,16 @@
       <th>Employee Name</th>
       <th>Start Date</th>
       <th>End Date</th>
-      <th>Days</th>
       <th>Reason</th>
       <th>Action</th>
     </tr>
-    {% for leave in leave_requests %}
     <tr>
-        <td>{{ leave.employee_id }}</td>
-      <td>{{ leave.employee.name }}</td>
+      {% for leave in leave_data %}
+      <td>{{ leave.employee.emp_id }}</td>
+      <td>{{ leave.employee.fname}} {{leave.employee.lname}}</td>
+
       <td>{{ leave.start_date }}</td>
       <td>{{ leave.end_date }}</td>
-      <td>{{ leave.days }}</td>
       <td>{{ leave.reason }}</td>
       <td>
         <input type="submit" value="Approve">

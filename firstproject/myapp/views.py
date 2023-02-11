@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 #from django.contrib.auth.models import Employee
 #from path.to.models import Employee
 from .models import Member, Employee
 from .models import LeaveForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+# from django.contrib.auth import User
 from django.http import HttpResponse
 
 # Create your views here.
@@ -16,39 +18,48 @@ def login_user(request):
     if request.method == "POST":
         username=request.POST['username']
         password=request.POST['password']
-        utype=request.POST['user-type']
-        #print(username,password)
+        # utype=request.POST['user-type']
+        # des = Employee.objects.get(designation="Manager")
         user = authenticate(request, username=username,password=password)
-        #user = authenticate(request, username=Fname, password=Password)
+
         if user is not None:
-            if utype == "employee":
-                return render(request, 'nav.html')
-            else:
-                return render(request, 'manager_dash.html')
             login(request, user)
-            return redirect('nav')
+            currUser = Employee.objects.get(fname=username.capitalize())
+            if currUser.designation == 'Manager':
+                return redirect('manager_dash')
+            else:
+                return redirect('nav')
         else:
             messages.success(request, ("There was an Error Loggin In, Try Again..."))
             return redirect('login')
     else:
         return render(request, 'login.html', {})
 
+# @login_required(login_url="login")
 def navigation(request):
+    if request.user.is_authenticated:
+        print("yes bro")
+    else:
+        print("NO")
     return render(request, 'nav.html', {})
 
 def leave(request):
     if request.method=="POST":
-        name=request.POST.get('name')
-        email=request.POST.get('email')
+        # name=request.POST.get('name')
+        # email=request.POST.get('email')
+        # emp_id = request.POST.get('emp_id')
+        emp_id = request.user.id
         start_date=request.POST.get('start_date')
         end_date=request.POST.get('end_date')
         reason=request.POST.get('reason')
-        leaveform=LeaveForm(name=name,email=email,start_date=start_date,end_date=end_date,reason=reason)
+        employee = Employee.objects.get(emp_id = int(emp_id))
+        leaveform=LeaveForm(employee= employee,start_date=start_date,end_date=end_date,reason=reason)
         leaveform.save()
         messages.success(request,"Leave Details submitted successfully!")
     return render(request, 'leave.html', {})
 
-def logout(request):
+def logoutPage(request):
+    logout(request)
     return render(request, 'logout.html', {})
 
 def leave_history(request):
@@ -61,10 +72,17 @@ def profile(request):
     return render(request, 'profile.html', {'profile': profile})
 
 def manager_dash(request):
+    username = request.user.username
+    currUser = Employee.objects.get(fname=username.capitalize())
+    if currUser.designation != 'Manager':
+        return HttpResponse("You are not a manager. Please go back")
+
     return render(request, 'manager_dash.html', {})
 
 def manager_leaveapproval(request):
-    return render(request, 'manager_leaveapproval.html', {})
+    leave_data=LeaveForm.objects.all()
+
+    return render(request, 'manager_leaveapproval.html', { 'leave_data':leave_data})
 
 def manageraddemp(request):
     return render(request, 'manageraddemp.html', {})

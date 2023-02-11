@@ -33,8 +33,10 @@ class Employee(models.Model):
         return self.fname
 
 class LeaveForm(models.Model):
-    name=models.CharField(max_length=50)
-    email=models.EmailField(max_length=50)
+    employee = models.ForeignKey(Employee,default=1, on_delete=models.CASCADE)
     start_date=models.CharField(max_length=50)
     end_date=models.CharField(max_length=50)
     reason=models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.employee.fname + " " + self.employee.lname + " ///  " + self.start_date + " to " + self.end_date
