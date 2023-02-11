@@ -12,7 +12,7 @@ from django.http import HttpResponse
 # Create your views here.
 def home(request):
     all_members=Member.objects.all
-    return render(request, 'hi.html', {'all':all_members})
+    return render(request, 'mhome.html', {'all':all_members})
 
 def login_user(request):
     if request.method == "POST":
@@ -26,9 +26,9 @@ def login_user(request):
             login(request, user)
             currUser = Employee.objects.get(fname=username.capitalize())
             if currUser.designation == 'Manager':
-                return redirect('manager_dash')
+                return redirect('mhome')
             else:
-                return redirect('nav')
+                return redirect('ehome')
         else:
             messages.success(request, ("There was an Error Loggin In, Try Again..."))
             return redirect('login')
@@ -41,7 +41,7 @@ def navigation(request):
         print("yes bro")
     else:
         print("NO")
-    return render(request, 'nav.html', {})
+    return render(request, 'ehome.html', {})
 
 def leave(request):
     if request.method=="POST":
@@ -89,3 +89,13 @@ def manager_leaveapproval(request):
 
 def manageraddemp(request):
     return render(request, 'manageraddemp.html', {})
+
+def teams(request):
+    return render(request, 'teams_page.html', {})
+
+
+def ehome(request):
+    return render(request, 'ehome.html', {})
+
+def mhome(request):
+    return render(request, 'mhome.html', {})
