@@ -45,10 +45,11 @@ class Member(models.Model):
 
 class LeaveForm(models.Model):
     employee = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
-    start_date = models.CharField(max_length=50)
-    end_date = models.CharField(max_length=50)
+    start_date = models.DateField()
+    end_date = models.DateField()
     reason = models.CharField(max_length=100)
     status = models.CharField(max_length=10, default="applied")
+    days = models.IntegerField(null=True)
 
     def __str__(self):
         return (
@@ -56,9 +57,7 @@ class LeaveForm(models.Model):
             + " "
             + self.employee.member.lname
             + " ///  "
-            + self.start_date
+            + str(self.start_date)
             + " to "
-            + self.end_date
-            + " ///  "
-            + self.start_date
+            + str(self.end_date)
         )

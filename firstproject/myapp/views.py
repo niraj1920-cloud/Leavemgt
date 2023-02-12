@@ -7,6 +7,7 @@ from .models import Member
 from .models import LeaveForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .countLeaves import leave_days
 
 # from django.contrib.auth import User
 from django.http import HttpResponse
@@ -57,11 +58,13 @@ def leave(request):
         end_date = request.POST.get("end_date")
         reason = request.POST.get("reason")
         # employee = Employee.objects.get(emp_id=int(emp_id))
+        days = leave_days(start_date, end_date)
         leaveform = LeaveForm(
             employee=request.user,
             start_date=start_date,
             end_date=end_date,
             reason=reason,
+            days=days,
         )
         leaveform.save()
         messages.success(request, "Leave Details submitted successfully!")
