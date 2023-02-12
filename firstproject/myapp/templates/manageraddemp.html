@@ -75,12 +75,22 @@
   <body>
 
     <div class="topnav">
-      <a href="{% url 'mhome' %}">Home</a>
+      {% if request.user.member.designation == "Employee" %}
+      <a class="active" href="{% url 'ehome' %}">Home</a>
+      {% else %}
+      <a class="active" href="{% url 'mhome' %}">Home</a>
+      {% endif %}
       <a href="{% url 'profile' %}">Profile</a>
+      {% if request.user.member.designation == "Employee" %}
       <a href="{% url 'leave' %}">Apply for leave</a>
-      <a href="{% url 'manager_leaveapproval' %}">Approve Leave</a>
-      <a class="active" href="#manageraddemp">Add member</a>
+      <a href="{% url 'leave_history' %}">Leave History</a>
+      {% endif %} {% if request.user.member.designation == "Manager" %}
+      <a class="active" href="{% url 'manager_leaveapproval' %}"
+        >Approve Leave</a
+      >
+      <a href="{% url 'manageraddemp' %}">Add member</a>
       <a href="{% url 'teams' %}">Teams</a>
+      {% endif %}
       <a href="{% url 'logout' %}">Log Out</a>
     </div>
 

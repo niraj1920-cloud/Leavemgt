@@ -66,10 +66,22 @@
   <body>
 
     <div class="topnav">
-      <a href="{% url 'ehome' %}">Home</a>
-      <a class="active" href="#profile">Profile</a>
+      {% if request.user.member.designation == "Employee" %}
+      <a class="active" href="{% url 'ehome' %}">Home</a>
+      {% else %}
+      <a class="active" href="{% url 'mhome' %}">Home</a>
+      {% endif %}
+      <a href="{% url 'profile' %}">Profile</a>
+      {% if request.user.member.designation == "Employee" %}
       <a href="{% url 'leave' %}">Apply for leave</a>
       <a href="{% url 'leave_history' %}">Leave History</a>
+      {% endif %} {% if request.user.member.designation == "Manager" %}
+      <a class="active" href="{% url 'manager_leaveapproval' %}"
+        >Approve Leave</a
+      >
+      <a href="{% url 'manageraddemp' %}">Add member</a>
+      <a href="{% url 'teams' %}">Teams</a>
+      {% endif %}
       <a href="{% url 'logout' %}">Log Out</a>
     </div>
 
@@ -86,12 +98,12 @@
 
           <p>
             <span class="profile-label">First Name:</span>
-            <input readonly type="text" value="{{ profile.fname }}">
+            <input readonly type="text" value="{{ request.user.member.fname }}">
           </p>
 
           <p>
             <span class="profile-label">Last Name:</span>
-            <input readonly type="text" value="{{ profile.lname }}">
+            <input readonly type="text" value="{{ request.user.member.lname }}">
           </p>
 
           <p>
@@ -101,37 +113,37 @@
 
           <p>
             <span class="profile-label">Date Of Birth:</span>
-            <input readonly type="text" value="{{ profile.DOB }}">
+            <input readonly type="text" value="{{ request.user.member.DOB }}">
           </p>
 
           <p>
             <span class="profile-label">Phone Number:</span>
-            <input readonly type="text" value="{{ profile.phone_number }}">
+            <input readonly type="text" value="{{ request.user.member.phone_number }}">
           </p>
 
           <p>
             <span class="profile-label">Email:</span>
-            <input readonly type="text" value="{{ profile.email }}">
+            <input readonly type="text" value="{{ request.user.member.email }}">
           </p>
 
           <p>
             <span class="profile-label">Department:</span>
-            <input readonly type="text" value="{{ profile.department }}">
+            <input readonly type="text" value="{{ request.user.member.department }}">
           </p>
 
           <p>
             <span class="profile-label">Designation:</span>
-            <input readonly type="text" value="{{ profile.designation }}">
+            <input readonly type="text" value="{{ request.user.member.designation }}">
           </p>
 
           <p>
             <span class="profile-label">Date Of Joining:</span>
-            <input readonly type="text" value="{{ profile.doj }}">
+            <input readonly type="text" value="{{ request.user.member.doj }}">
           </p>
 
           <p>
             <span class="profile-label">Address:</span>
-            <input readonly type="text" value="{{ profile.address }}">
+            <input readonly type="text" value="{{ request.user.member.address }}">
           </p>
 
           <br>
