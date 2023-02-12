@@ -1,9 +1,8 @@
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-
-/* Add styles for main content */
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      /* Add styles for main content */
       main {
         padding: 1em;
         text-align: center;
@@ -24,58 +23,53 @@
         color: #333;
       }
 
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+      }
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+      }
 
-.topnav {
-  overflow: hidden;
-  background-color: #333;
-}
+      .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
 
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
+      .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+      }
 
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
+      .topnav a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topnav">
+      <a class="active" href="#ehome">Home</a>
+      <a href="{% url 'profile' %}">Profile</a>
+      <a href="{% url 'leave' %}">Apply for leave</a>
+      <a href="{% url 'leave_history' %}">Leave History</a>
+      <a href="{% url 'logout' %}">Log Out</a>
+    </div>
 
-.topnav a.active {
-  background-color: #04AA6D;
-  color: white;
-}
-</style>
-</head>
-<body>
-
-<div class="topnav">
-  <a class="active" href="#ehome">Home</a>
-  <a href="{% url 'profile' %}">Profile</a>
-  <a href="{% url 'leave' %}">Apply for leave</a>
-  <a href="{% url 'leave_history' %}">Leave History</a>
-  <a href="{% url 'logout' %}">Log Out</a>
-</div>
-
-<h3>
-  <nav>
-      <div class="user-info">
-        <p>
-          &nbsp Hi! {{profile.fname}}<br>
-        </p>
-      </div>
-
-    </nav>
-</h3>
-<main>
+    <h3>
+      <nav>
+        <div class="user-info">
+          <p>&nbsp Hi {{ request.user.member.fname }}!<br /></p>
+        </div>
+      </nav>
+    </h3>
+    <main>
       <h2>Welcome to Leave Management System</h2>
 
       <p>Track your leave status and apply for new leaves with ease.</p>
@@ -92,6 +86,5 @@ body {
         <p>You have {{ rejected.leave }} rejected leaves</p>
       </div>
     </main>
-
-</body>
+  </body>
 </html>
