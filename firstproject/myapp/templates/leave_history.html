@@ -1,7 +1,6 @@
 <html>
   <head>
     <style>
-
       .topnav {
         overflow: hidden;
         background-color: #333;
@@ -22,17 +21,17 @@
       }
 
       .topnav a.active {
-        background-color: #04AA6D;
+        background-color: #04aa6d;
         color: white;
       }
-
 
       table {
         width: 100%;
         border-collapse: collapse;
       }
 
-      th, td {
+      th,
+      td {
         border: 1px solid black;
         padding: 8px;
         text-align: left;
@@ -60,7 +59,6 @@
     </style>
   </head>
   <body>
-
     <div class="topnav">
       {% if request.user.member.designation == "Employee" %}
       <a class="active" href="{% url 'ehome' %}">Home</a>
@@ -81,31 +79,24 @@
       <a href="{% url 'logout' %}">Log Out</a>
     </div>
 
-  <h1>Leave History</h1>
+    <h1>Leave History</h1>
     <table>
       <tr>
-        <th>Date</th>
-        <th>Leave Type</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Days</th>
+        <th>Reason</th>
         <th>Status</th>
       </tr>
-      <?php
-        $db = new SQLite3('leave_history.db');
-        $result = $db->query("SELECT * FROM leave_history");
-        while ($row = $result->fetchArray()) {
-          echo "<tr";
-          if ($row['status'] == "Approved") {
-            echo " class='approved'";
-          } elseif ($row['status'] == "Denied") {
-            echo " class='denied'";
-          }
-          echo ">";
-          echo "<td>" . $row['date'] . "</td>";
-          echo "<td>" . $row['leave_type'] . "</td>";
-          echo "<td>" . $row['status'] . "</td>";
-          echo "</tr>";
-        }
-        $db->close();
-      ?>
+      <tr>
+        {% for leave in leaves %}
+        <td>{{ leave.start_date }}</td>
+        <td>{{ leave.end_date }}</td>
+        <td>{{ leave.days }}</td>
+        <td>{{ leave.reason }}</td>
+        <td>{{ leave.status }}</td>
+      </tr>
+      {% endfor %}
     </table>
   </body>
 </html>

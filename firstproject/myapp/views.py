@@ -81,7 +81,8 @@ def logoutPage(request):
 
 
 def leave_history(request):
-    return render(request, "leave_history.html", {})
+    leaves = LeaveForm.objects.filter(employee=request.user)
+    return render(request, "leave_history.html", {"leaves": leaves})
 
 
 def profile(request):
