@@ -3,6 +3,30 @@
   <head>
     <title>Leave Approval/Rejection Page</title>
     <style>
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
+
+      .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+
+      .topnav a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+
       h2 {
         background-color: black;
         color: white;
@@ -28,6 +52,22 @@
     </style>
   </head>
   <body>
+    <div class="topnav">
+      <a class="active" href="#ehome">Home</a>
+      <a href="{% url 'profile' %}">Profile</a>
+      {% if request.user.member.designation == "Employee" %}
+      <a href="{% url 'leave' %}">Apply for leave</a>
+      <a href="{% url 'leave_history' %}">Leave History</a>
+      {% endif %} {% if request.user.member.designation == "Manager" %}
+      <a class="active" href="{% url 'manager_leaveapproval' %}"
+        >Approve Leave</a
+      >
+      <a href="{% url 'manageraddemp' %}">Add member</a>
+      <a href="{% url 'teams' %}">Teams</a>
+      {% endif %}
+      <a href="{% url 'logout' %}">Log Out</a>
+    </div>
+
     <h2>Leave Requests</h2>
     <table>
       <tr>
@@ -35,23 +75,31 @@
         <th>Employee Name</th>
         <th>Start Date</th>
         <th>End Date</th>
-        <th>Days</th>
         <th>Reason</th>
         <th>Action</th>
       </tr>
       <tr>
         {% for leave in leave_data %}
-        <td>{{ leave.employee.emp_id }}</td>
-        <td>{{ leave.employee.fname}} {{leave.employee.lname}}</td>
+        <td>{{ leave.employee.id }}</td>
+        <td>
+          {{ leave.employee.member.fname }} {{leave.employee.member.lname }}
+        </td>
 
         <td>{{ leave.start_date }}</td>
         <td>{{ leave.end_date }}</td>
-        <td>{{ leave.days }}</td>
         <td>{{ leave.reason }}</td>
+        {% if leave.status == "applied" %}
         <td>
-          <input type="submit" value="Approve" />
-          <input type="submit" value="Reject" />
+          <a href="{% url 'approve' leave.id %}"
+            ><input type="submit" name="approve" value="Approve"
+          /></a>
+          <a href="{% url 'reject' leave.id %}"
+            ><input type="submit" name="reject" value="Reject"
+          /></a>
         </td>
+        {% else %}
+        <td>{{ leave.status }}</td>
+        {% endif %}
       </tr>
       {% endfor %}
     </table>

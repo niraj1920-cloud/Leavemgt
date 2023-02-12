@@ -1,0 +1,138 @@
+<html>
+  <head>
+    <style>
+
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
+
+      .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+
+      .topnav a.active {
+        background-color: #04AA6D;
+        color: white;
+      }
+
+      .teams {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        margin-top: 20px;
+      }
+
+      .teams p {
+        cursor: pointer;
+        padding: 10px 20px;
+        margin: 0 10px;
+        background-color: blue;
+        border-radius: 5px;
+        color: white;
+      }
+
+      .teams p:hover {
+        background-color: green;
+      }
+
+      .employees {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        background-color: lightgray;
+        border-radius: 5px;
+      }
+
+      .employees p {
+        margin-top: 10px;
+        font-size: 18px;
+        text-align: center;
+      }
+
+      .others {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        background-color: lightgray;
+        border-radius: 5px;
+      }
+
+      .others p {
+        margin-top: 10px;
+        font-size: 18px;
+        text-align: center;
+      }
+    </style>
+    <script>
+      function showEmployees(team) {
+        var team1 = document.getElementById("team1");
+        var team2 = document.getElementById("team2");
+        var team3 = document.getElementById("team3");
+        var others = document.getElementById("others");
+        team1.style.display = "none";
+        team2.style.display = "none";
+        team3.style.display = "none";
+        others.style.display = "none";
+        document.getElementById(team).style.display = "block";
+      }
+    </script>
+  </head>
+  <body>
+
+    <div class="topnav">
+      <a class="active" href="#ehome">Home</a>
+      <a href="{% url 'profile' %}">Profile</a>
+      {% if request.user.member.designation == "Employee" %}
+      <a href="{% url 'leave' %}">Apply for leave</a>
+      <a href="{% url 'leave_history' %}">Leave History</a>
+      {% endif %} {% if request.user.member.designation == "Manager" %}
+      <a class="active" href="{% url 'manager_leaveapproval' %}"
+        >Approve Leave</a
+      >
+      <a href="{% url 'manageraddemp' %}">Add member</a>
+      <a href="{% url 'teams' %}">Teams</a>
+      {% endif %}
+      <a href="{% url 'logout' %}">Log Out</a>
+    </div>
+
+    <div class="teams">
+      <p onclick="showEmployees('team1')">Team 1</p>
+      <p onclick="showEmployees('team2')">Team 2</p>
+      <p onclick="showEmployees('team3')">Team 3</p>
+      <p onclick="showEmployees('others')">Others</p>
+    </div>
+    <div id="team1" class="employees">
+      {% for employee in team1_employees %}
+        <p>{{ employee.name }}</p>
+      {% endfor %}
+    </div>
+    <div id="team2" class="employees">
+      {% for employee in team2_employees %}
+        <p>{{ employee.name }}</p>
+      {% endfor %}
+    </div>
+    <div id="team3" class="employees">
+      {% for employee in team3_employees %}
+        <p>{{ employee.name }}</p>
+      {% endfor %}
+    </div>
+    <div id="others" class="others">
+      {% for employee in others_employees %}
+        <p>{{ employee.name }}</p>
+      {% endfor %}
+    </div>
+  </body>
+</html>
+

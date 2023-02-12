@@ -1,29 +1,92 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Leave Application Form</title>
-</head>
-<body>
-  <h1>Leave Application Form</h1>
-  <form method="post">
-    {% csrf_token %}
-    <label for="emp_id">Employee ID:</label>
-    <input readonly type="text" id="emp_id" value="{{request.user.id}}" name="emp_id"><br><br>
-    <label for="name">Name:</label>
-    <input readonly type="text" id="name"
-           value="{{request.user.first_name}}"
-           name="name"><br><br>
-    <label for="email">Email:</label>
-    <input readonly type="email" id="email"
-           value="{{request.user.email}}"
-           name="email"><br><br>
-    <label for="start_date">Start Date:</label>
-    <input type="date" id="start_date" name="start_date"><br><br>
-    <label for="end_date">End Date:</label>
-    <input type="date" id="end_date" name="end_date"><br><br>
-    <label for="reason">Reason for Leave:</label>
-    <textarea id="reason" name="reason"></textarea><br><br>
-    <input type="submit" value="Submit">
-  </form>
-</body>
+  <head>
+    <style>
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
+
+      .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+
+      .topnav a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+    </style>
+    <title>Leave Application Form</title>
+  </head>
+  <body>
+    <!--  <div class="topnav">-->
+    <!--    <a href="{% url 'ehome' %}">Home</a>-->
+    <!--    <a href="{% url 'profile' %}">Profile</a>-->
+    <!--    <a class="active" href="#applyforleave">Apply for leave</a>-->
+    <!--    <a href="{% url 'leave_history' %}">Leave History</a>-->
+    <!--    <a href="{% url 'logout' %}">Log Out</a>-->
+    <!--  </div>-->
+
+    <div class="topnav">
+      <a class="active" href="#ehome">Home</a>
+      <a href="{% url 'profile' %}">Profile</a>
+      {% if request.user.member.designation == "Employee" %}
+      <a href="{% url 'leave' %}">Apply for leave</a>
+      <a href="{% url 'leave_history' %}">Leave History</a>
+      {% endif %} {% if request.user.member.designation == "Manager" %}
+      <a class="active" href="{% url 'manager_leaveapproval' %}"
+        >Approve Leave</a
+      >
+      <a href="{% url 'manageraddemp' %}">Add member</a>
+      <a href="{% url 'teams' %}">Teams</a>
+      {% endif %}
+      <a href="{% url 'logout' %}">Log Out</a>
+    </div>
+
+    <h1>Leave Application Form</h1>
+    <form method="post">
+      {% csrf_token %}
+      <label for="emp_id">Employee ID:</label>
+      <input
+        readonly
+        type="text"
+        id="emp_id"
+        value="{{ request.user.id}}"
+        name="emp_id"
+      /><br /><br />
+      <label for="name">Name:</label>
+      <input
+        readonly
+        type="text"
+        id="name"
+        value="{{ request.user.member.fname }} {{request.user.member.lname}}"
+        name="name"
+      /><br /><br />
+      <label for="email">Email:</label>
+      <input
+        readonly
+        type="email"
+        id="email"
+        value="{{request.user.member.email}}"
+        name="email"
+      /><br /><br />
+      <label for="start_date">Start Date:</label>
+      <input type="date" id="start_date" name="start_date" /><br /><br />
+      <label for="end_date">End Date:</label>
+      <input type="date" id="end_date" name="end_date" /><br /><br />
+      <label for="reason">Reason for Leave:</label>
+      <textarea id="reason" name="reason"></textarea><br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
 </html>

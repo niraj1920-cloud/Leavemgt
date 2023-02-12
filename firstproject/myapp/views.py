@@ -3,19 +3,18 @@ from django.contrib.auth import authenticate, login, logout
 
 # from django.contrib.auth.models import Employee
 # from path.to.models import Employee
-from .models import Member, Employee
+from .models import Member
 from .models import LeaveForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 # from django.contrib.auth import User
 from django.http import HttpResponse
-from .countLeaves import leave_days
 
 # Create your views here.
 def home(request):
     all_members = Member.objects.all
-    return render(request, "hi.html", {"all": all_members})
+    return render(request, "mhome.html", {"all": all_members})
 
 
 def login_user(request):
@@ -28,11 +27,10 @@ def login_user(request):
 
         if user is not None:
             login(request, user)
-            currUser = Employee.objects.get(fname=username.capitalize())
-            if currUser.designation == "Manager":
-                return redirect("manager_dash")
+            if request.user.member.designation == "Manager":
+                return redirect("mhome")
             else:
-                return redirect("nav")
+                return redirect("ehome")
         else:
             messages.success(request, ("There was an Error Loggin In, Try Again..."))
             return redirect("login")
@@ -46,30 +44,32 @@ def navigation(request):
         print("yes bro")
     else:
         print("NO")
-    return render(request, "nav.html", {})
+    return render(request, "ehome.html", {})
 
 
 def leave(request):
     if request.method == "POST":
-        # name=request.POST.get('name')
-        # email=request.POST.get('email')
-        # emp_id = request.POST.get('emp_id')
-        emp_id = request.user.id
+        # name = request.POST.get("name")
+        # email = request.POST.get("email")
+        # emp_id = request.POST.get("emp_id")
+        # emp_id = request.user.id
         start_date = request.POST.get("start_date")
         end_date = request.POST.get("end_date")
         reason = request.POST.get("reason")
-        employee = Employee.objects.get(emp_id=int(emp_id))
-        days = leave_days(start_date, end_date)
+        # employee = Employee.objects.get(emp_id=int(emp_id))
         leaveform = LeaveForm(
-            employee=employee,
+            employee=request.user,
             start_date=start_date,
             end_date=end_date,
-            days=days,
             reason=reason,
         )
         leaveform.save()
         messages.success(request, "Leave Details submitted successfully!")
-    return render(request, "leave.html", {})
+    # username = request.user.username
+    profile = request.user.member.fname
+    # profile = Employee.objects.get(fname=username.capitalize())
+    print(profile)
+    return render(request, "leave.html", {"profile": profile})
 
 
 def logoutPage(request):
@@ -82,16 +82,17 @@ def leave_history(request):
 
 
 def profile(request):
-    username = request.user.username
-    print(username.capitalize())
-    profile = Employee.objects.get(fname=username.capitalize())
+    # username = request.user.username
+    # print(username.capitalize())
+    # profile = Employee.objects.get(fname=username.capitalize())
+    profile = request.user.member
     return render(request, "profile.html", {"profile": profile})
 
 
 def manager_dash(request):
-    username = request.user.username
-    currUser = Employee.objects.get(fname=username.capitalize())
-    if currUser.designation != "Manager":
+    # username = request.user.username
+    # currUser = Employee.objects.get(fname=username.capitalize())
+    if request.user.member.designation != "Manager":
         return HttpResponse("You are not a manager. Please go back")
 
     return render(request, "manager_dash.html", {})
@@ -105,3 +106,32 @@ def manager_leaveapproval(request):
 
 def manageraddemp(request):
     return render(request, "manageraddemp.html", {})
+
+
+def teams(request):
+    return render(request, "teams_page.html", {})
+
+
+def ehome(request):
+    return render(request, "ehome.html", {})
+
+
+def mhome(request):
+    return render(request, "mhome.html", {})
+
+
+def approve(request, leaveID):
+    lf = LeaveForm.objects.get(id=leaveID)
+    print(lf)
+    lf.status = "Approved"
+    lf.save()
+    return redirect("manager_leaveapproval")
+
+
+def reject(request, leaveID):
+    lf = LeaveForm.objects.get(id=leaveID)
+    print(lf)
+    lf.status = "Rejected"
+    lf.save()
+    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", lf.status)
+    return redirect("manager_leaveapproval")
