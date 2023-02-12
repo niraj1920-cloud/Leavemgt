@@ -51,11 +51,13 @@ class LeaveForm(models.Model):
 
     def __str__(self):
         return (
-            self.employee.fname
+            self.employee.member.fname
             + " "
-            + self.employee.lname
+            + self.employee.member.lname
             + " ///  "
             + self.start_date
             + " to "
             + self.end_date
+            + " ///  "
+            + self.start_date
         )
