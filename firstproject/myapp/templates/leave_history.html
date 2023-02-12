@@ -62,7 +62,11 @@
   <body>
 
     <div class="topnav">
-      <a class="active" href="#ehome">Home</a>
+      {% if request.user.member.designation == "Employee" %}
+      <a class="active" href="{% url 'ehome' %}">Home</a>
+      {% else %}
+      <a class="active" href="{% url 'mhome' %}">Home</a>
+      {% endif %}
       <a href="{% url 'profile' %}">Profile</a>
       {% if request.user.member.designation == "Employee" %}
       <a href="{% url 'leave' %}">Apply for leave</a>
