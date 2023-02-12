@@ -112,29 +112,29 @@
     </div>
 
     <div class="teams">
-      <p onclick="showEmployees('team1')">Team 1</p>
-      <p onclick="showEmployees('team2')">Team 2</p>
-      <p onclick="showEmployees('team3')">Team 3</p>
+      <p onclick="showEmployees('team1')">Marketing</p>
+      <p onclick="showEmployees('team2')">Development</p>
+      <p onclick="showEmployees('team3')">Design</p>
       <p onclick="showEmployees('others')">Others</p>
     </div>
     <div id="team1" class="employees">
       {% for employee in team1_employees %}
-        <p>{{ employee.name }}</p>
+        <p>{{ employee.fname }} {{ employee.lname }}</p>
       {% endfor %}
     </div>
     <div id="team2" class="employees">
       {% for employee in team2_employees %}
-        <p>{{ employee.name }}</p>
+        <p>{{ employee.fname }} {{ employee.lname }}</p>
       {% endfor %}
     </div>
     <div id="team3" class="employees">
       {% for employee in team3_employees %}
-        <p>{{ employee.name }}</p>
+        <p>{{ employee.fname }} {{ employee.lname }}</p>
       {% endfor %}
     </div>
     <div id="others" class="others">
       {% for employee in others_employees %}
-        <p>{{ employee.name }}</p>
+        <p>{{ employee.fname }} {{ employee.lname }}</p>
       {% endfor %}
     </div>
   </body>

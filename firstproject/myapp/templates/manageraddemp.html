@@ -97,32 +97,32 @@
 
     <h2>Employee Management</h2>
     <table>
+      <thead>
       <tr>
         <th>ID</th>
         <th>Name</th>
         <th>Department</th>
       </tr>
-      <?php
-      $db = mysqli_connect("hostname", "username", "password", "database_name");
-      $result = mysqli_query($db, "SELECT * FROM employees");
-      while($row = mysqli_fetch_array($result)) {
-      echo "<tr>";
-      echo "<td>" . $row['id'] . "</td>";
-      echo "<td>" . $row['name'] . "</td>";
-      echo "<td>" . $row['department'] . "</td>";
-      echo "</tr>";
-      }
-  mysqli_close($db);
-  ?>
+      </thead>
+      <tbody>{%for employee in employees %}
+      <tr>
+      <td>{{employee.user.id}}</td>
+      <td>{{employee.fname}}  {{employee.lname}}</td>
+      <td>{{employee.department}}</td></tr>
+      {%endfor%}</tbody>
+
 </table>
 
     <h3>Assign Employee to Team</h3>
-    <form>
+    <form method = "POST">
+      {% csrf_token %}
       <div class="form-group">
         <label for="employee">Employee:</label>
-        <select id="employee" name=. $row['name'] .>
-          <option value=. $row['name'] .>. $row['name'] .</option>
-          <option value=. $row['name'] .>. $row['name'] .</option>
+        <select id="employee" name= "employee">
+          {%for employee in employees %}
+        <option value={{ employee.user.id }}> {{employee.fname}}  {{employee.lname}}</option>
+      {%endfor%}
+
         </select>
       </div>
       <div class="form-group">

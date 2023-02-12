@@ -22,6 +22,7 @@ class Member(models.Model):
     designation = models.CharField(max_length=50, default="Employee")
     address = models.CharField(max_length=100, null=True)
     leave_balance = models.IntegerField(default=30)
+    team = models.CharField(default="bench", max_length=20)
 
     def __str__(self):
         return self.fname + " " + self.lname

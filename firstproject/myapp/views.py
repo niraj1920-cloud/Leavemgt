@@ -109,11 +109,31 @@ def manager_leaveapproval(request):
 
 
 def manageraddemp(request):
-    return render(request, "manageraddemp.html", {})
+    if request.method == "POST":
+        employee = request.POST.get("employee")
+        team = request.POST.get("team")
+        # print("EEEEEEEEEEEEEEEEEEEEEEE", employee, team)
+
+        currEmp = Member.objects.get(user = employee)
+        currEmp.team = team
+        currEmp.save()
+        # print("FFFFFFFFFFFFFFFFFF", currEmp)
+
+
+    employees = Member.objects.filter(designation = "Employee")
+    return render(request, "manageraddemp.html", {"employees": employees})
 
 
 def teams(request):
-    return render(request, "teams_page.html", {})
+    team1_employees = Member.objects.filter(team="Marketing", designation = "Employee")
+    team2_employees = Member.objects.filter(team="Development", designation = "Employee")
+    team3_employees = Member.objects.filter(team="Design", designation = "Employee")
+    team4_employees = Member.objects.filter(team="bench", designation = "Employee")
+    context = {"team1_employees":team1_employees,
+               "team2_employees":team2_employees,
+               "team3_employees":team3_employees,
+               "others_employees":team4_employees,}
+    return render(request, "teams_page.html", context)
 
 
 def ehome(request):
