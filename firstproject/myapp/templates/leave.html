@@ -38,6 +38,7 @@
     <!--  </div>-->
 
     <div class="topnav">
+<<<<<<< HEAD
       {% if request.user.member.designation == "Employee" %}
       <a class="active" href="{% url 'ehome' %}">Home</a>
       {% else %}
@@ -48,6 +49,12 @@
       <a href="{% url 'leave' %}">Apply for leave</a>
       <a href="{% url 'leave_history' %}">Leave History</a>
       {% endif %} {% if request.user.member.designation == "Manager" %}
+=======
+      <a href="{% url 'mhome' %}">Home</a>
+      <a href="{% url 'profile' %}">Profile</a>
+      <a href="#">Apply for leave</a>
+      {% if profile.designation == 'Manager' %}
+>>>>>>> 201ea72fe9fca4759d7b48be431577764e1fbe8d
       <a class="active" href="{% url 'manager_leaveapproval' %}"
         >Approve Leave</a
       >
@@ -84,8 +91,11 @@
         value="{{request.user.member.email}}"
         name="email"
       /><br /><br />
+<<<<<<< HEAD
       <label for="leave_balance">Leave Balance:</label>
       <input type="text" id="leave_balance" name="leave_balance" readonly value="{{ request.user.member.leave_balance }}" /><br /><br />
+=======
+>>>>>>> 201ea72fe9fca4759d7b48be431577764e1fbe8d
       <label for="start_date">Start Date:</label>
       <input type="date" id="start_date" name="start_date" /><br /><br />
       <label for="end_date">End Date:</label>

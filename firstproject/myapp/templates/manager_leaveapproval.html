@@ -53,6 +53,7 @@
   </head>
   <body>
     <div class="topnav">
+<<<<<<< HEAD
       {% if request.user.member.designation == "Employee" %}
       <a class="active" href="{% url 'ehome' %}">Home</a>
       {% else %}
@@ -69,6 +70,14 @@
       <a href="{% url 'manageraddemp' %}">Add member</a>
       <a href="{% url 'teams' %}">Teams</a>
       {% endif %}
+=======
+      <a href="{% url 'mhome' %}">Home</a>
+      <a href="{% url 'profile' %}">Profile</a>
+      <a href="{% url 'leave' %}">Apply for leave</a>
+      <a class="active" href="#manager_leaveapproval">Approve Leave</a>
+      <a href="{% url 'manageraddemp' %}">Add member</a>
+      <a href="{% url 'teams' %}">Teams</a>
+>>>>>>> 201ea72fe9fca4759d7b48be431577764e1fbe8d
       <a href="{% url 'logout' %}">Log Out</a>
     </div>
 
@@ -79,8 +88,11 @@
         <th>Employee Name</th>
         <th>Start Date</th>
         <th>End Date</th>
+<<<<<<< HEAD
         <th>Days Requested</th>
         <th>Employee's Leave Balance</th>
+=======
+>>>>>>> 201ea72fe9fca4759d7b48be431577764e1fbe8d
         <th>Reason</th>
         <th>Action</th>
       </tr>
@@ -88,11 +100,16 @@
         {% for leave in leave_data %}
         <td>{{ leave.employee.id }}</td>
         <td>
+<<<<<<< HEAD
           {{ leave.employee.member.fname }} {{leave.employee.member.lname }}
+=======
+          {{ leave.employee.member.fname}} {{leave.employee.member.lname}}
+>>>>>>> 201ea72fe9fca4759d7b48be431577764e1fbe8d
         </td>
 
         <td>{{ leave.start_date }}</td>
         <td>{{ leave.end_date }}</td>
+<<<<<<< HEAD
         <td>{{ leave.days }}</td>
         <td>{{ request.user.member.leave_balance }}</td>
         <td>{{ leave.reason }}</td>
@@ -108,6 +125,13 @@
         {% else %}
         <td>{{ leave.status }}</td>
         {% endif %}
+=======
+        <td>{{ leave.reason }}</td>
+        <td>
+          <input type="submit" value="Approve" />
+          <input type="submit" value="Reject" />
+        </td>
+>>>>>>> 201ea72fe9fca4759d7b48be431577764e1fbe8d
       </tr>
       {% endfor %}
     </table>

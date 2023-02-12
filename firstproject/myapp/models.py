@@ -21,7 +21,10 @@ class Member(models.Model):
     department = models.CharField(max_length=50, null=True)
     designation = models.CharField(max_length=50, default="Employee")
     address = models.CharField(max_length=100, null=True)
+<<<<<<< HEAD
     leave_balance = models.IntegerField(default=30)
+=======
+>>>>>>> 201ea72fe9fca4759d7b48be431577764e1fbe8d
 
     def __str__(self):
         return self.fname + " " + self.lname
@@ -46,11 +49,17 @@ class Member(models.Model):
 
 class LeaveForm(models.Model):
     employee = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
+<<<<<<< HEAD
     start_date = models.DateField()
     end_date = models.DateField()
     reason = models.CharField(max_length=100)
     status = models.CharField(max_length=10, default="applied")
     days = models.IntegerField(null=True)
+=======
+    start_date = models.CharField(max_length=50)
+    end_date = models.CharField(max_length=50)
+    reason = models.CharField(max_length=100)
+>>>>>>> 201ea72fe9fca4759d7b48be431577764e1fbe8d
 
     def __str__(self):
         return (
@@ -58,7 +67,15 @@ class LeaveForm(models.Model):
             + " "
             + self.employee.member.lname
             + " ///  "
+<<<<<<< HEAD
             + str(self.start_date)
             + " to "
             + str(self.end_date)
+=======
+            + self.start_date
+            + " to "
+            + self.end_date
+            + " ///  "
+            + self.start_date
+>>>>>>> 201ea72fe9fca4759d7b48be431577764e1fbe8d
         )
