@@ -14,5 +14,7 @@ urlpatterns= [
     path('manageraddemp', views.manageraddemp, name="manageraddemp"),
     path('teams', views.teams, name="teams"),
     path('mhome', views.mhome, name="mhome"),
+    path('approve/<str:pk>', views.approve, name = "approve"),
+    path('reject/<str:pk>', views.reject, name = 'reject')
 
 ]

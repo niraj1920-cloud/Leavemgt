@@ -66,7 +66,7 @@
   <h2>Leave Requests</h2>
   <table>
     <tr>
-        <th>Employee ID</th>
+      <th>Employee ID</th>
       <th>Employee Name</th>
       <th>Start Date</th>
       <th>End Date</th>
@@ -82,8 +82,8 @@
       <td>{{ leave.end_date }}</td>
       <td>{{ leave.reason }}</td>
       <td>
-        <input type="submit" value="Approve">
-        <input type="submit" value="Reject">
+        <a href="{% url 'approve' leave.employee.emp_id %}"><input type="submit" name="approve" value="Approve"></a>
+        <a href="{% url 'reject' leave.employee.emp_id %}"><input type="submit" name="reject" value="Reject"></a>
       </td>
     </tr>
     {% endfor %}

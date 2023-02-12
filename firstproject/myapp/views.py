@@ -66,7 +66,10 @@ def logoutPage(request):
     return render(request, 'logout.html', {})
 
 def leave_history(request):
-    return render(request, 'leave_history.html', {})
+    username = request.user.username
+    print("fhsifhsdafis   ", username.capitalize())
+    lf = LeaveForm.objects.get(employee__fname = username.capitalize())
+    return render(request, 'leave_history.html', {'lf' : lf})
 
 def profile(request):
     username = request.user.username
@@ -84,11 +87,11 @@ def manager_dash(request):
 
 def manager_leaveapproval(request):
     leave_data=LeaveForm.objects.all()
-
     return render(request, 'manager_leaveapproval.html', { 'leave_data':leave_data})
 
 def manageraddemp(request):
-    return render(request, 'manageraddemp.html', {})
+    context = Employee.objects.filter(designation = 'Employee')
+    return render(request, 'manageraddemp.html', {'employees':context})
 
 def teams(request):
     return render(request, 'teams_page.html', {})
@@ -99,3 +102,17 @@ def ehome(request):
 
 def mhome(request):
     return render(request, 'mhome.html', {})
+
+def approve(request, pk):
+    lf = LeaveForm.objects.get(employee__emp_id = pk)
+    print(lf)
+    lf.status = "Approved"
+    lf.save()
+    return redirect('manager_leaveapproval')
+
+def reject(request,pk):
+    lf = LeaveForm.objects.get(employee__emp_id=pk)
+    print(lf)
+    lf.status = "Rejected"
+    lf.save()
+    return redirect('manager_leaveapproval')
