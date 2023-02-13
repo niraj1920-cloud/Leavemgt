@@ -4,17 +4,19 @@ from .otp import generateOTP
 from django.contrib.auth.models import User
 from .email import sendMail
 from threading import Thread
-
-# from django.contrib.auth.models import Employee
-# from path.to.models import Employee
 from .models import Member
 from .models import LeaveForm
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .countLeaves import leave_days
-
-# from django.contrib.auth import User
 from django.http import HttpResponse
+
+
+# Decorator for checking manager
+def is_manager(user):
+    # print("is manager: ", user.member.designation)
+    return user.member.designation == "Manager"
+
 
 # Create your views here.
 def home(request):
@@ -100,6 +102,7 @@ def profile(request):
     )
 
 
+@user_passes_test(is_manager, login_url="ehome")
 def manager_dash(request):
     # username = request.user.username
     # currUser = Employee.objects.get(fname=username.capitalize())
@@ -109,12 +112,14 @@ def manager_dash(request):
     return render(request, "manager_dash.html", {})
 
 
+@user_passes_test(is_manager, login_url="ehome")
 def manager_leaveapproval(request):
     leave_data = LeaveForm.objects.all()
 
     return render(request, "manager_leaveapproval.html", {"leave_data": leave_data})
 
 
+@user_passes_test(is_manager, login_url="ehome")
 def manageraddemp(request):
     if request.method == "POST":
         employee = request.POST.get("employee")
@@ -130,6 +135,7 @@ def manageraddemp(request):
     return render(request, "manageraddemp.html", {"employees": employees})
 
 
+@user_passes_test(is_manager, login_url="ehome")
 def teams(request):
     team1_employees = Member.objects.filter(team="Marketing", designation="Employee")
     team2_employees = Member.objects.filter(team="Development", designation="Employee")
@@ -144,7 +150,6 @@ def teams(request):
     return render(request, "teams_page.html", context)
 
 
-@login_required(login_url="login")
 def ehome(request):
     approvedLeaves = len(
         LeaveForm.objects.filter(employee=request.user, status="Approved")
@@ -157,10 +162,12 @@ def ehome(request):
     return render(request, "ehome.html", context)
 
 
+@user_passes_test(is_manager, login_url="ehome")
 def mhome(request):
     return render(request, "mhome.html", {})
 
 
+@user_passes_test(is_manager, login_url="ehome")
 def approve(request, leaveID):
     lf = LeaveForm.objects.get(id=leaveID)
     emp = Member.objects.get(user=lf.employee)
@@ -173,6 +180,7 @@ def approve(request, leaveID):
     return redirect("manager_leaveapproval")
 
 
+@user_passes_test(is_manager, login_url="ehome")
 def reject(request, leaveID):
     lf = LeaveForm.objects.get(id=leaveID)
     print(lf)
