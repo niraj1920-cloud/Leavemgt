@@ -1,0 +1,33 @@
+/* Style for header */
+header {
+text-align: center;
+}
+
+/* Style for profile container */
+.profile-container {
+width: 80%;
+margin: 20px auto;
+padding: 20px;
+background-color: #ddd;
+}
+
+/* Style for profile details */
+.profile-details {
+width: 80%;
+display: flex;
+flex-wrap: wrap;
+}
+
+.profile-details input[type="text"] {
+width: 50%;
+margin: 10px 0;
+padding: 10px;
+font-size: 18px;
+}
+
+/* Style for profile label */
+.profile-label {
+font-weight: bold;
+margin-right: 10px;
+width: 40%;
+}

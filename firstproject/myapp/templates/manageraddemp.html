@@ -1,139 +1,46 @@
-<html>
-  <head>
-    <style>
-
-      .topnav {
-        overflow: hidden;
-        background-color: #333;
-       }
-
-      .topnav a {
-        float: left;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 17px;
-      }
-
-      .topnav a:hover {
-        background-color: #ddd;
-        color: black;
-      }
-
-      .topnav a.active {
-        background-color: #04AA6D;
-        color: white;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      th, td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-      form {
-        margin-bottom: 20px;
-      }
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 20px;
-      }
-      label {
-        margin-bottom: 10px;
-      }
-      input[type="text"], select {
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-      }
-      input[type="submit"] {
-        width: 100%;
-        background-color: #4CAF50;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      input[type="submit"]:hover {
-        background-color: #45a049;
-      }
-    </style>
-  </head>
-  <body>
-
-    <div class="topnav">
-      {% if request.user.member.designation == "Employee" %}
-      <a class="active" href="{% url 'ehome' %}">Home</a>
-      {% else %}
-      <a class="active" href="{% url 'mhome' %}">Home</a>
-      {% endif %}
-      <a href="{% url 'profile' %}">Profile</a>
-      {% if request.user.member.designation == "Employee" %}
-      <a href="{% url 'leave' %}">Apply for leave</a>
-      <a href="{% url 'leave_history' %}">Leave History</a>
-      {% endif %} {% if request.user.member.designation == "Manager" %}
-      <a class="active" href="{% url 'manager_leaveapproval' %}"
-        >Approve Leave</a
-      >
-      <a href="{% url 'manageraddemp' %}">Add member</a>
-      <a href="{% url 'teams' %}">Teams</a>
-      {% endif %}
-      <a href="{% url 'logout' %}">Log Out</a>
-    </div>
-
-
-    <h2>Employee Management</h2>
-    <table>
-      <thead>
-      <tr>
-        <th>Employee ID</th>
-        <th>Name</th>
-        <th>Department</th>
-      </tr>
-      </thead>
-      <tbody>{%for employee in employees %}
-      <tr>
+{% extends "base.html" %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static '/css/manageraddemp.css' %}" />
+<h2>Employee Management</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Employee ID</th>
+      <th>Name</th>
+      <th>Department</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for employee in employees %}
+    <tr>
       <td>{{employee.user.id}}</td>
-      <td>{{employee.fname}}  {{employee.lname}}</td>
-      <td>{{employee.department}}</td></tr>
-      {%endfor%}</tbody>
-
+      <td>{{employee.fname}} {{employee.lname}}</td>
+      <td>{{employee.department}}</td>
+    </tr>
+    {%endfor%}
+  </tbody>
 </table>
 
-    <h3>Assign Employee to Team</h3>
-    <form method = "POST">
-      {% csrf_token %}
-      <div class="form-group">
-        <label for="employee">Employee:</label>
-        <select id="employee" name= "employee">
-          {%for employee in employees %}
-        <option value={{ employee.user.id }}> {{employee.fname}}  {{employee.lname}}</option>
+<h3>Assign Employee to Team</h3>
+<form method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="employee">Employee:</label>
+    <select id="employee" name="employee">
+      {%for employee in employees %}
+      <option value="{{ employee.user.id }}">
+        {{employee.fname}} {{employee.lname}}
+      </option>
       {%endfor%}
-
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="team">Team:</label>
-        <select id="team" name="team">
-          <option value="Marketing">Marketing</option>
-          <option value="Development">Development</option>
-          <option value="Design">Design</option>
-        </select>
-      </div>
-      <input type="submit" value="Submit">
-    </form>
-  </body>
-</html>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="team">Team:</label>
+    <select id="team" name="team">
+      <option value="Marketing">Marketing</option>
+      <option value="Development">Development</option>
+      <option value="Design">Design</option>
+    </select>
+  </div>
+  <input type="submit" value="Submit" />
+</form>
+{% endblock content %}
