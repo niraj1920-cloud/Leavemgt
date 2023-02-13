@@ -260,8 +260,8 @@ def add_employee(request):
         try:
             Member.objects.create(
                 user=user,
-                fname=fname,
-                lname=lname,
+                fname=str(fname).capitalize(),
+                lname=str(lname).capitalize(),
                 email=email,
                 DOB=date_of_birth,
                 phone_number=phone_number,
