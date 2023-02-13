@@ -90,7 +90,10 @@ def profile(request):
     # print(username.capitalize())
     # profile = Employee.objects.get(fname=username.capitalize())
     # profile = request.user.member
-    return render(request, "profile.html",)
+    return render(
+        request,
+        "profile.html",
+    )
 
 
 def manager_dash(request):
@@ -114,32 +117,38 @@ def manageraddemp(request):
         team = request.POST.get("team")
         # print("EEEEEEEEEEEEEEEEEEEEEEE", employee, team)
 
-        currEmp = Member.objects.get(user = employee)
+        currEmp = Member.objects.get(user=employee)
         currEmp.team = team
         currEmp.save()
         # print("FFFFFFFFFFFFFFFFFF", currEmp)
 
-
-    employees = Member.objects.filter(designation = "Employee")
+    employees = Member.objects.filter(designation="Employee")
     return render(request, "manageraddemp.html", {"employees": employees})
 
 
 def teams(request):
-    team1_employees = Member.objects.filter(team="Marketing", designation = "Employee")
-    team2_employees = Member.objects.filter(team="Development", designation = "Employee")
-    team3_employees = Member.objects.filter(team="Design", designation = "Employee")
-    team4_employees = Member.objects.filter(team="bench", designation = "Employee")
-    context = {"team1_employees":team1_employees,
-               "team2_employees":team2_employees,
-               "team3_employees":team3_employees,
-               "others_employees":team4_employees,}
+    team1_employees = Member.objects.filter(team="Marketing", designation="Employee")
+    team2_employees = Member.objects.filter(team="Development", designation="Employee")
+    team3_employees = Member.objects.filter(team="Design", designation="Employee")
+    team4_employees = Member.objects.filter(team="bench", designation="Employee")
+    context = {
+        "team1_employees": team1_employees,
+        "team2_employees": team2_employees,
+        "team3_employees": team3_employees,
+        "others_employees": team4_employees,
+    }
     return render(request, "teams_page.html", context)
 
 
+@login_required(login_url="login")
 def ehome(request):
-    approvedLeaves = len(LeaveForm.objects.filter(employee = request.user, status = "Approved"))
-    rejectedLeaves = len(LeaveForm.objects.filter(employee = request.user, status = "Rejected"))
-    context ={'approvedLeaves':approvedLeaves,'rejectedLeaves':rejectedLeaves}
+    approvedLeaves = len(
+        LeaveForm.objects.filter(employee=request.user, status="Approved")
+    )
+    rejectedLeaves = len(
+        LeaveForm.objects.filter(employee=request.user, status="Rejected")
+    )
+    context = {"approvedLeaves": approvedLeaves, "rejectedLeaves": rejectedLeaves}
     print("teraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", context)
     return render(request, "ehome.html", context)
 
@@ -153,7 +162,7 @@ def approve(request, leaveID):
     emp = Member.objects.get(user=lf.employee)
     emp.leave_balance -= lf.days
     emp.save()
-    print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",emp)
+    print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", emp)
     print(lf)
     lf.status = "Approved"
     lf.save()
