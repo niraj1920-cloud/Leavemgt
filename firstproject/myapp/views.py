@@ -77,7 +77,7 @@ def leave(request):
     # username = request.user.username
     profile = request.user.member.fname
     # profile = Employee.objects.get(fname=username.capitalize())
-    print(profile)
+    # print(profile)
     return render(request, "leave.html", {"profile": profile})
 
 
@@ -158,7 +158,7 @@ def ehome(request):
         LeaveForm.objects.filter(employee=request.user, status="Rejected")
     )
     context = {"approvedLeaves": approvedLeaves, "rejectedLeaves": rejectedLeaves}
-    print("teraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", context)
+    # print("teraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", context)
     return render(request, "ehome.html", context)
 
 
@@ -173,8 +173,8 @@ def approve(request, leaveID):
     emp = Member.objects.get(user=lf.employee)
     emp.leave_balance -= lf.days
     emp.save()
-    print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", emp)
-    print(lf)
+    # print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", emp)
+    # print(lf)
     lf.status = "Approved"
     lf.save()
     return redirect("manager_leaveapproval")
@@ -183,10 +183,10 @@ def approve(request, leaveID):
 @user_passes_test(is_manager, login_url="ehome")
 def reject(request, leaveID):
     lf = LeaveForm.objects.get(id=leaveID)
-    print(lf)
+    # print(lf)
     lf.status = "Rejected"
     lf.save()
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", lf.status)
+    # print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", lf.status)
     return redirect("manager_leaveapproval")
 
 
