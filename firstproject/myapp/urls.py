@@ -28,3 +28,7 @@ urlpatterns += [
     path("forgot_password", views.forgot_password, name="forgot_password"),
     path("reset_password/", views.reset_password, name="reset_password"),
 ]
+
+urlpatterns += [
+    path("add_employee", views.add_employee, name="add_employee"),
+]

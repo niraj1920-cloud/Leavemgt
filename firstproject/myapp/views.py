@@ -235,3 +235,42 @@ def reset_password(request):
             return HttpResponse("Wrong OTP Entered or user does not exist")
 
     return render(request, "reset_password.html")
+
+
+def add_employee(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        fname = request.POST.get("fname")
+        lname = request.POST.get("lname")
+        email = request.POST.get("email")
+        date_of_birth = request.POST.get("date_of_birth")
+        phone_number = request.POST.get("phone_number")
+        date_of_joining = request.POST.get("date_of_joining")
+        department = request.POST.get("department")
+        designation = request.POST.get("designation")
+        address = request.POST.get("address")
+        leave_balance = request.POST.get("leave_balance")
+
+        user = User.objects.create_user(
+            username=username, email=email, password=password
+        )
+        if not user:
+            raise Exception("something went wrong with the DB!")
+        try:
+            Member.objects.create(
+                user=user,
+                fname=fname,
+                lname=lname,
+                email=email,
+                DOB=date_of_birth,
+                phone_number=phone_number,
+                doj=date_of_joining,
+                department=department,
+                designation=designation,
+                address=address,
+                leave_balance=leave_balance,
+            )
+        except Exception as e:
+            print(e)
+    return render(request, "add_employee.html")
