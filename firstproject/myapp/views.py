@@ -1,5 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from .otp import generateOTP
+from django.contrib.auth.models import User
+from .email import sendMail
+from threading import Thread
 
 # from django.contrib.auth.models import Employee
 # from path.to.models import Employee
@@ -176,3 +180,50 @@ def reject(request, leaveID):
     lf.save()
     print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", lf.status)
     return redirect("manager_leaveapproval")
+
+
+def forgot_password(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        otp = generateOTP()
+
+        # Save these values in the session for reset_password() to use
+        request.session["currentUser"] = username
+        request.session["otp"] = otp
+
+        # Threaded as sending emails sometimes takes time
+        try:
+            toEmail = Member.objects.get(user__username=username).email
+            thread = Thread(
+                target=sendMail,
+                args=(toEmail, "Request for password Reset", f"Your OTP is {otp}"),
+            )
+            thread.start()
+        except Exception as e:
+            print(e)
+
+        return redirect(reset_password)
+
+    return render(request, "forgot_password.html")
+
+
+def reset_password(request):
+    if request.method == "POST":
+        enteredOTP = request.POST.get("otp")
+        newPassword = request.POST.get("password")
+
+        try:
+            userToChange = User.objects.get(username=request.session.get("currentUser"))
+        except Exception as e:
+            print(e)
+
+        otp = request.session.get("otp")
+
+        if otp == enteredOTP:
+            userToChange.set_password(newPassword)
+            return HttpResponse("Password Changed Successfully")
+
+        else:
+            return HttpResponse("Wrong OTP Entered or user does not exist")
+
+    return render(request, "reset_password.html")

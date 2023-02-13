@@ -15,6 +15,3 @@ def generateOTP():
         OTP += digits[math.floor(random.random() * 10)]
 
     return OTP
-
-
-print(generateOTP())

@@ -22,3 +22,9 @@ urlpatterns = [
     path("approve/<leaveID>", views.approve, name="approve"),
     path("reject/<leaveID>", views.reject, name="reject"),
 ]
+
+
+urlpatterns += [
+    path("forgot_password", views.forgot_password, name="forgot_password"),
+    path("reset_password/", views.reset_password, name="reset_password"),
+]
