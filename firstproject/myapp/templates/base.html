@@ -9,23 +9,22 @@
   <body>
     <div class="topnav">
       {% if request.user.member.designation == "Employee" %}
-        <a {% if 'ehome' in request.path %}class="active"{% endif %} href="{% url 'ehome' %}">Home</a>
+        <a {% if request.path == '/ehome' %}class="active"{% endif %} href="{% url 'ehome' %}">Home</a>
+        <a {% if request.path == '/profile' %}class="active"{% endif %} href="{% url 'profile' %}">Profile</a>
+        <a {% if request.path == '/leave' %}class="active"{% endif %} href="{% url 'leave' %}">Apply for leave</a>
+        <a {% if request.path == '/leave_history' %}class="active"{% endif %} href="{% url 'leave_history' %}">Leave History</a>
+      
       {% else %}
-        <a {% if 'mhome' in request.path %}class="active"{% endif %} href="{% url 'mhome' %}">Home</a>
+
+      <a {% if request.path == '/mhome' %}class="active"{% endif %} href="{% url 'mhome' %}">Home</a>
+      <a {% if request.path == '/manager_leaveapproval' %}class="active"{% endif %} href="{% url 'manager_leaveapproval' %}">Approve Leave</a>
+      <a {% if request.path == '/manageraddemp' %}class="active"{% endif %} href="{% url 'manageraddemp' %}">Add member</a>
+      <a {% if request.path == '/teams' %}class="active"{% endif %} href="{% url 'teams' %}">Teams</a>
       {% endif %}
-      <a {% if 'profile' in request.path %}class="active"{% endif %} href="{% url 'profile' %}">Profile</a>
-      {% if request.user.member.designation == "Employee" %}
-        <a {% if request.path == '/leave/' %}class="active"{% endif %} href="{% url 'leave' %}">Apply for leave</a>
-        <a {% if 'leave_history' in request.path %}class="active"{% endif %} href="{% url 'leave_history' %}">Leave History</a>
-      {% endif %}
-      {% if request.user.member.designation == "Manager" %}
-        <a {% if request.path == '/manager_leaveapproval/' %}class="active"{% endif %} href="{% url 'manager_leaveapproval' %}">Approve Leave</a>
-        <a {% if request.path == '/manageraddemp/' %}class="active"{% endif %} href="{% url 'manageraddemp' %}">Add member</a>
-        <a {% if request.path == '/teams/' %}class="active"{% endif %} href="{% url 'teams' %}">Teams</a>
-      {% endif %}
+
       <a href="{% url 'logout' %}">Log Out</a>
       <p align="right" style="color: white">
-        Hi {{ request.user.member.fname }}!&nbsp;&nbsp;&nbsp;&nbsp;.
+        Hi {{ request.user.member.fname }}!
       </p>
     </div>
     
