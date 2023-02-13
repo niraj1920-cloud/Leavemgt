@@ -75,41 +75,40 @@
     <a href="{% url 'leave' %}">Apply for leave</a>
     <a href="{% url 'leave_history' %}">Leave History</a>
     {% endif %} {% if request.user.member.designation == "Manager" %}
-    <a class="active" href="{% url 'manager_leaveapproval' %}"
+    <a  href="{% url 'manager_leaveapproval' %}"
       >Approve Leave</a
     >
     <a href="{% url 'manageraddemp' %}">Add member</a>
     <a href="{% url 'teams' %}">Teams</a>
     {% endif %}
     <a href="{% url 'logout' %}">Log Out</a>
+    <p align = "right" style="color: white">Hi {{ request.user.member.fname }}!&nbsp;&nbsp;&nbsp;&nbsp;.</p>
   </div>
 
   <h3>
     <nav>
       <div class="user-info">
-        <p>
-          &nbsp Hi! {{profile.fname}}<br>
-        </p>
+
       </div>
 
     </nav>
   </h3>
-    <main>
+    <main><br><br><br><br><br><br>
       <h2>Welcome to the Roster & Leave Management System</h2>
 
       <p>You can manage all the employees and their leaves.</p>
-      <div class="leave-status-card">
-        <h3>Pending Leaves</h3>
-        <p>You have {{ pending.leave }} pending leave requests</p>
-      </div>
-      <div class="leave-status-card">
-        <h3>Approved Leaves</h3>
-        <p>You have {{ approved.leave }} approved leave requests</p>
-      </div>
-      <div class="leave-status-card">
-        <h3>Rejected Leaves</h3>
-        <p>You have {{ rejected.leave }} rejected leave requests</p>
-      </div>
+<!--      <div class="leave-status-card">-->
+<!--        <h3>Pending Leaves</h3>-->
+<!--        <p>You have {{ pending.leave }} pending leave requests</p>-->
+<!--      </div>-->
+<!--      <div class="leave-status-card">-->
+<!--        <h3>Approved Leaves</h3>-->
+<!--        <p>You have {{ approved.leave }} approved leave requests</p>-->
+<!--      </div>-->
+<!--      <div class="leave-status-card">-->
+<!--        <h3>Rejected Leaves</h3>-->
+<!--        <p>You have {{ rejected.leave }} rejected leave requests</p>-->
+<!--      </div>-->
     </main>
 </body>
 </html>
