@@ -1,7 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script>
+      const number=document.getElementById("phone").value;
+      function validation(e)
+      {
+        if(e.value.length!=10)
+        {
+          document.getElementById("error1").innerHTML="number should be 10 digits"
+        }
+        else
+        {
+          document.getElementById("error1").innerHTML=""
+        }
+
+      }
+     </script> 
     <style>
+      #error1
+      {
+        color: red;
+      }
 
       .topnav {
         overflow: hidden;
@@ -93,61 +112,64 @@
     <!-- Profile container -->
     <div class="profile-container">
       <h2>Personal Information</h2>
-      <form>
+      <form method="post">
+        {% csrf_token %}  
         <div class="profile-details">
 
           <p>
             <span class="profile-label">First Name:</span>
-            <input  type="text" value="{{ request.user.member.fname }}">
+            <input  type="text" name="fname" value="{{ request.user.member.fname }}">
           </p>
 
           <p>
             <span class="profile-label">Last Name:</span>
-            <input readonly type="text" value="{{ request.user.member.lname }}">
+            <input readonly type="text" name="lname" value="{{ request.user.member.lname }}">
           </p>
 
           <p>
             <span class="profile-label">Employee ID:</span>
-            <input readonly type="text" value="{{ request.user.id}}">
+            <input readonly type="text" name="empId" value="{{ request.user.id}}">
           </p>
 
           <p>
             <span class="profile-label">Date Of Birth:</span>
-            <input readonly type="text" value="{{ request.user.member.DOB }}">
+            <input readonly type="text" name="dob" value="{{ request.user.member.DOB }}">
           </p>
 
           <p>
             <span class="profile-label">Phone Number:</span>
-            <input  type="text" value="{{ request.user.member.phone_number }}">
+            <input type="number" name="number" oninput="validation(this)" id="phone" value="{{ request.user.member.phone_number }}">
+            <span id="error1"></span>
           </p>
 
           <p>
             <span class="profile-label">Email:</span>
-            <input  type="text" value="{{ request.user.member.email }}">
+            <input  type="email" name="emailId" value="{{ request.user.member.email }}">
           </p>
 
           <p>
             <span class="profile-label">Department:</span>
-            <input readonly type="text" value="{{ request.user.member.department }}">
+            <input readonly type="text" name="dept" value="{{ request.user.member.department }}">
           </p>
 
           <p>
             <span class="profile-label">Designation:</span>
-            <input readonly type="text" value="{{ request.user.member.designation }}">
+            <input readonly type="text" name="designation" value="{{ request.user.member.designation }}">
           </p>
 
           <p>
             <span class="profile-label">Date Of Joining:</span>
-            <input readonly type="text" value="{{ request.user.member.doj }}">
+            <input readonly type="text" name="doj" value="{{ request.user.member.doj }}">
           </p>
 
           <p>
             <span class="profile-label">Address:</span>
-            <input readonly type="text" value="{{ request.user.member.address }}">
+            <input readonly type="text"name="addr" value="{{ request.user.member.address }}">
           </p>
 
           <br>
         </div>
+        <button type="submit" id="submit" onclick="alert('Profile Updated')">Update</button>
       </form>
     </div>
   </body>

@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
@@ -25,15 +26,18 @@ def login_user(request):
         # utype=request.POST['user-type']
         # des = Employee.objects.get(designation="Manager")
         user = authenticate(request, username=username, password=password)
-
         if user is not None:
             login(request, user)
-            if request.user.member.designation == "Manager":
+            if(not hasattr(request.user,'member')):
+                messages.error(request, ("Oops!! Member doesn't exist..."))
+                return redirect("login")
+            elif request.user.member.designation == "Manager":
                 return redirect("mhome")
             else:
+                print(request.user.member)
                 return redirect("ehome")
         else:
-            messages.success(request, ("There was an Error Loggin In, Try Again..."))
+            messages.error(request, ("Oops!! User doesn't exist..."))
             return redirect("login")
     else:
         return render(request, "login.html", {})
@@ -49,30 +53,41 @@ def navigation(request):
 
 
 def leave(request):
-    if request.method == "POST":
-        # name = request.POST.get("name")
-        # email = request.POST.get("email")
-        # emp_id = request.POST.get("emp_id")
-        # emp_id = request.user.id
-        start_date = request.POST.get("start_date")
-        end_date = request.POST.get("end_date")
-        reason = request.POST.get("reason")
-        # employee = Employee.objects.get(emp_id=int(emp_id))
-        days = leave_days(start_date, end_date)
-        leaveform = LeaveForm(
-            employee=request.user,
-            start_date=start_date,
-            end_date=end_date,
-            reason=reason,
-            days=days,
-        )
-        leaveform.save()
-        messages.success(request, "Leave Details submitted successfully!")
-    # username = request.user.username
     profile = request.user.member.fname
-    # profile = Employee.objects.get(fname=username.capitalize())
-    print(profile)
+    if request.method == "POST":
+        stDate = request.POST.get("start_date")
+        endDate = request.POST.get("end_date")
+        reason = request.POST.get("reason")
+        temp=LeaveForm.objects.filter(employee=request.user.member.user).values()
+        start_date=datetime.strptime(stDate, '%Y-%m-%d').date()
+        end_date=datetime.strptime(endDate, '%Y-%m-%d').date()   
+        days = leave_days(stDate, endDate)
+        leaveform = LeaveForm(
+                       employee=request.user,
+                       start_date=start_date,
+                       end_date=end_date,
+                       reason=reason,
+                       days=days,
+                    )            
+        if(temp.__len__()==0):
+                Member.objects.filter(user=request.user.member.user).update(leave_balance=request.user.member.leave_balance-days)
+                leaveform.save()
+                messages.success(request, "Leave Details submitted successfully!")
+        else:
+            for ele in temp:
+                if(ele['end_date'] > start_date and ele['start_date']<end_date and start_date<end_date):
+                    msg="Leave dates correspond to previously applied leave:"
+                    messages.error(request,msg)
+                    for key,value in ele.items():
+                        if(key=='start_date' or key=='end_date' or key=='reason' or key=='status'):
+                            messages.error(request,"\n"+str(key)+":"+str(value))
+                    break
+            else:
+                Member.objects.filter(user=request.user.member.user).update(leave_balance=request.user.member.leave_balance-days)
+                leaveform.save()
+                messages.success(request, "Leave Details submitted successfully!")
     return render(request, "leave.html", {"profile": profile})
+    
 
 
 def logoutPage(request):
@@ -90,6 +105,15 @@ def profile(request):
     # print(username.capitalize())
     # profile = Employee.objects.get(fname=username.capitalize())
     # profile = request.user.member
+    if request.method=="POST":
+        number=request.POST['number']
+        emailId=request.POST['emailId']
+        empId=request.POST['empId']
+        Member.objects.filter(id=empId).update(email=emailId,phone_number=number)
+    return render(request,"profile.html")
+
+
+
     return render(request, "profile.html",)
 
 
