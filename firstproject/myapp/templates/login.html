@@ -55,6 +55,9 @@
     <div class="container">
       <form action="" method="POST">
         <center><h2>Leave Management System</h2></center>
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
         <center><h3>Login</h3></center>
         <div class="form-group">
             {% csrf_token %}

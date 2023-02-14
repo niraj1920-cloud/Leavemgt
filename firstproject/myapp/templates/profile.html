@@ -3,6 +3,7 @@
 <header>
   <h1>Profile</h1>
 </header>
+<script src="{% static 'js/profile.js' %}"></script>
 
 <!-- Profile container -->
 <div class="profile-container">
@@ -30,14 +31,15 @@
       </p>
 
       <p>
-        <span class="profile-label">Phone Number:</span>
-        <input type="text" value="{{ request.user.member.phone_number }}" />
-      </p>
+            <span class="profile-label">Phone Number:</span>
+            <input type="number" name="number" oninput="validation(this)" id="phone" value="{{ request.user.member.phone_number }}">
+            <span id="error1"></span>
+          </p>
 
-      <p>
-        <span class="profile-label">Email:</span>
-        <input type="text" value="{{ request.user.member.email }}" />
-      </p>
+          <p>
+            <span class="profile-label">Email:</span>
+            <input  type="email" name="emailId" value="{{ request.user.member.email }}">
+          </p>
 
       <p>
         <span class="profile-label">Department:</span>
@@ -68,6 +70,7 @@
       </p>
 
       <br />
+      <button type="submit" id="submit" onclick="alert('Profile Updated')">Update</button>
     </div>
   </form>
 </div>

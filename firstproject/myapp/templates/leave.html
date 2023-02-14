@@ -6,6 +6,11 @@
   integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
   crossorigin="anonymous"
 />
+<fieldset>
+  {% for message in messages %}
+    <p><i>{{ message }}</i></p> 
+  {% endfor %}
+</fieldset>
 <h1 class="title">Leave Application Form</h1>
 
 <form method="post">
@@ -78,7 +83,6 @@
     type="submit"
     value="Submit"
     class="btn btn-primary"
-    onclick="alert('Leave has been applied.')"
   />
 </form>
 {% endblock content %}
