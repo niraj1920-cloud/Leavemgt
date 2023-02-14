@@ -20,7 +20,7 @@
     <td>{{ leave.start_date }}</td>
     <td>{{ leave.end_date }}</td>
     <td>{{ leave.days }}</td>
-    <td>{{ leave.employee.member.leave_balance }}</td>
+    <td>{{ request.user.member.leave_balance }}</td>
     <td>{{ leave.reason }}</td>
     {% if leave.status == "applied" %}
     <td>
