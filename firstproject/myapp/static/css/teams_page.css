@@ -1,0 +1,48 @@
+.teams {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    margin-top: 20px;
+  }
+
+  .teams p {
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: blue;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .teams p:hover {
+    background-color: green;
+  }
+
+  .employees {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: lightgray;
+    border-radius: 5px;
+  }
+
+  .employees p {
+    margin-top: 10px;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .others {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: lightgray;
+    border-radius: 5px;
+  }
+
+  .others p {
+    margin-top: 10px;
+    font-size: 18px;
+    text-align: center;
+  }

@@ -1,142 +1,36 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <script>
-      const number=document.getElementById("phone").value;
-      function validation(e)
-      {
-        if(e.value.length!=10)
-        {
-          document.getElementById("error1").innerHTML="number should be 10 digits"
-        }
-        else
-        {
-          document.getElementById("error1").innerHTML=""
-        }
+{% extends "base.html" %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static '/css/profile.css' %}" />
+<header>
+  <h1>Profile</h1>
+</header>
+<script src="{% static 'js/profile.js' %}"></script>
 
-      }
-     </script> 
-    <style>
-      #error1
-      {
-        color: red;
-      }
+<!-- Profile container -->
+<div class="profile-container">
+  <h2>Personal Information</h2>
+  <form>
+    <div class="profile-details">
+      <p>
+        <span class="profile-label">First Name:</span>
+        <input type="text" value="{{ request.user.member.fname }}" />
+      </p>
 
-      .topnav {
-        overflow: hidden;
-        background-color: #333;
-      }
+      <p>
+        <span class="profile-label">Last Name:</span>
+        <input readonly type="text" value="{{ request.user.member.lname }}" />
+      </p>
 
-      .topnav a {
-        float: left;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 17px;
-      }
+      <p>
+        <span class="profile-label">Employee ID:</span>
+        <input readonly type="text" value="{{ request.user.id}}" />
+      </p>
 
-      .topnav a:hover {
-        background-color: #ddd;
-        color: black;
-      }
+      <p>
+        <span class="profile-label">Date Of Birth:</span>
+        <input readonly type="text" value="{{ request.user.member.DOB }}" />
+      </p>
 
-      .topnav a.active {
-        background-color: #04AA6D;
-        color: white;
-      }
-
-
-      /* Style for header */
-      header {
-        text-align: center;
-      }
-
-      /* Style for profile container */
-      .profile-container {
-        width: 80%;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #ddd;
-      }
-
-      /* Style for profile details */
-      .profile-details {
-        width: 80%
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      .profile-details input[type="text"] {
-        width: 50%;
-        margin: 10px 0;
-        padding: 10px;
-        font-size: 18px;
-      }
-
-      /* Style for profile label */
-      .profile-label {
-        font-weight: bold;
-        margin-right: 10px;
-        width: 40%;
-      }
-    </style>
-  </head>
-  <body>
-
-    <div class="topnav">
-      {% if request.user.member.designation == "Employee" %}
-      <a class="active" href="{% url 'ehome' %}">Home</a>
-      {% else %}
-      <a class="active" href="{% url 'mhome' %}">Home</a>
-      {% endif %}
-      <a href="{% url 'profile' %}">Profile</a>
-      {% if request.user.member.designation == "Employee" %}
-      <a href="{% url 'leave' %}">Apply for leave</a>
-      <a href="{% url 'leave_history' %}">Leave History</a>
-      {% endif %} {% if request.user.member.designation == "Manager" %}
-      <a class="active" href="{% url 'manager_leaveapproval' %}"
-        >Approve Leave</a
-      >
-      <a href="{% url 'manageraddemp' %}">Add member</a>
-      <a href="{% url 'teams' %}">Teams</a>
-      {% endif %}
-      <a href="{% url 'logout' %}">Log Out</a>
-    </div>
-
-
-    <header>
-      <h1>Profile</h1>
-    </header>
-
-    <!-- Profile container -->
-    <div class="profile-container">
-      <h2>Personal Information</h2>
-      <form method="post">
-        {% csrf_token %}  
-        <div class="profile-details">
-
-          <p>
-            <span class="profile-label">First Name:</span>
-            <input  type="text" name="fname" value="{{ request.user.member.fname }}">
-          </p>
-
-          <p>
-            <span class="profile-label">Last Name:</span>
-            <input readonly type="text" name="lname" value="{{ request.user.member.lname }}">
-          </p>
-
-          <p>
-            <span class="profile-label">Employee ID:</span>
-            <input readonly type="text" name="empId" value="{{ request.user.id}}">
-          </p>
-
-          <p>
-            <span class="profile-label">Date Of Birth:</span>
-            <input readonly type="text" name="dob" value="{{ request.user.member.DOB }}">
-          </p>
-
-          <p>
+      <p>
             <span class="profile-label">Phone Number:</span>
             <input type="number" name="number" oninput="validation(this)" id="phone" value="{{ request.user.member.phone_number }}">
             <span id="error1"></span>
@@ -147,30 +41,37 @@
             <input  type="email" name="emailId" value="{{ request.user.member.email }}">
           </p>
 
-          <p>
-            <span class="profile-label">Department:</span>
-            <input readonly type="text" name="dept" value="{{ request.user.member.department }}">
-          </p>
+      <p>
+        <span class="profile-label">Department:</span>
+        <input
+          readonly
+          type="text"
+          value="{{ request.user.member.department }}"
+        />
+      </p>
 
-          <p>
-            <span class="profile-label">Designation:</span>
-            <input readonly type="text" name="designation" value="{{ request.user.member.designation }}">
-          </p>
+      <p>
+        <span class="profile-label">Designation:</span>
+        <input
+          readonly
+          type="text"
+          value="{{ request.user.member.designation }}"
+        />
+      </p>
 
-          <p>
-            <span class="profile-label">Date Of Joining:</span>
-            <input readonly type="text" name="doj" value="{{ request.user.member.doj }}">
-          </p>
+      <p>
+        <span class="profile-label">Date Of Joining:</span>
+        <input readonly type="text" value="{{ request.user.member.doj }}" />
+      </p>
 
-          <p>
-            <span class="profile-label">Address:</span>
-            <input readonly type="text"name="addr" value="{{ request.user.member.address }}">
-          </p>
+      <p>
+        <span class="profile-label">Address:</span>
+        <input readonly type="text" value="{{ request.user.member.address }}" />
+      </p>
 
-          <br>
-        </div>
-        <button type="submit" id="submit" onclick="alert('Profile Updated')">Update</button>
-      </form>
+      <br />
+      <button type="submit" id="submit" onclick="alert('Profile Updated')">Update</button>
     </div>
-  </body>
-</html>
+  </form>
+</div>
+{% endblock content %}

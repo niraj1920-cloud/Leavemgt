@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LeaveMGMT</title>
+    <link rel="stylesheet" href="{% static '/css/base.css' %}">
+  </head>
+
+  <body>
+    <div class="topnav">
+      {% if request.user.member.designation == "Employee" %}
+        <a {% if request.path == '/ehome' %}class="active"{% endif %} href="{% url 'ehome' %}">Home</a>
+        <a {% if request.path == '/profile' %}class="active"{% endif %} href="{% url 'profile' %}">Profile</a>
+        <a {% if request.path == '/leave' %}class="active"{% endif %} href="{% url 'leave' %}">Apply for leave</a>
+        <a {% if request.path == '/leave_history' %}class="active"{% endif %} href="{% url 'leave_history' %}">Leave History</a>
+      
+      {% else %}
+
+      <a {% if request.path == '/mhome' %}class="active"{% endif %} href="{% url 'mhome' %}">Home</a>
+      <a {% if request.path == '/manager_leaveapproval' %}class="active"{% endif %} href="{% url 'manager_leaveapproval' %}">Approve Leave</a>
+      <a {% if request.path == '/add_employee' %}class="active"{% endif %} href="{% url 'add_employee' %}">Add Employee</a>
+      <a {% if request.path == '/manageraddemp' %}class="active"{% endif %} href="{% url 'manageraddemp' %}">Change Teams</a>
+      <a {% if request.path == '/teams' %}class="active"{% endif %} href="{% url 'teams' %}">Teams</a>
+      {% endif %}
+
+      <a href="{% url 'logout' %}">Log Out</a>
+      <p align="right" style="color: white">
+        Hi {{ request.user.member.fname }}!
+      </p>
+    </div>
+    
+    {% block content %}{% endblock content %}
+    <script src="{% static 'js/teams_page.js' %}"></script>
+  </body>
+</html>
