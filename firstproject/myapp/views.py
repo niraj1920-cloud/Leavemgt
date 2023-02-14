@@ -77,6 +77,21 @@ def leave(request):
             reason=reason,
             days=days,
         )
+        managers = Member.objects.filter(designation="Manager")
+        for manager in managers:
+            try:
+                thread = Thread(
+                    target=sendMail,
+                    args=(
+                        manager.email,
+                        "Leave Approval",
+                        f"{request.user.member.fname} {request.user.member.lname} has requested a leave<br />Duration : {start_date} to {end_date} ({days} days)<br >Reason :{reason}",
+                    ),
+                )
+                thread.start()
+            except Exception as e:
+                print(e)
+
         if temp.__len__() == 0:
             Member.objects.filter(user=request.user.member.user).update(
                 leave_balance=request.user.member.leave_balance - days
