@@ -18,7 +18,8 @@
 
       <a {% if request.path == '/mhome' %}class="active"{% endif %} href="{% url 'mhome' %}">Home</a>
       <a {% if request.path == '/manager_leaveapproval' %}class="active"{% endif %} href="{% url 'manager_leaveapproval' %}">Approve Leave</a>
-      <a {% if request.path == '/manageraddemp' %}class="active"{% endif %} href="{% url 'manageraddemp' %}">Add member</a>
+      <a {% if request.path == '/add_employee' %}class="active"{% endif %} href="{% url 'add_employee' %}">Add Employee</a>
+      <a {% if request.path == '/manageraddemp' %}class="active"{% endif %} href="{% url 'manageraddemp' %}">Change Teams</a>
       <a {% if request.path == '/teams' %}class="active"{% endif %} href="{% url 'teams' %}">Teams</a>
       {% endif %}
 

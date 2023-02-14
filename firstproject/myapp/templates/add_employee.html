@@ -1,3 +1,4 @@
+{% extends "base.html" %}{% load static %}{% block content %}
 <h1>Add employee</h1>
 <form method="POST">
   {% csrf_token %}
@@ -46,3 +47,4 @@
   <input type="number" id="leave_balance" name="leave_balance" /><br />
   <button type="submit">Create User</button>
 </form>
+{% endblock content %}

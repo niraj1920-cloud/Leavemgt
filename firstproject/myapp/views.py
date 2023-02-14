@@ -260,6 +260,7 @@ def reset_password(request):
     return render(request, "reset_password.html")
 
 
+@user_passes_test(is_manager, login_url="ehome")
 def add_employee(request):
     if request.method == "POST":
         username = request.POST.get("username")
