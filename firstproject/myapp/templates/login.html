@@ -56,6 +56,7 @@
       <form action="" method="POST">
         <center><h2>Leave Management System</h2></center>
         <center><h3>Login</h3></center>
+<<<<<<< Updated upstream
         <!--        <div class="form-group">-->
         <!--            <label for="user-type">I am a:</label>-->
         <!--            <select id="user-type" name="user-type">-->
@@ -67,6 +68,22 @@
           {% csrf_token %}
           <label for="username">Username:</label>
           <input type="text" id="username" name="username" />
+=======
+        <div class="form-group">
+            {% csrf_token %}
+
+            {% for message in messages %}
+            <div class="alert alert-success">
+                <h3 style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                {{ message }}
+                </h3>
+            </div>
+            {% endfor %}
+
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+>>>>>>> Stashed changes
         </div>
         <div class="form-group">
           <label for="password">Password:</label>

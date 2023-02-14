@@ -23,6 +23,7 @@
     />
   </div>
 
+<<<<<<< Updated upstream
   <div class="form-group">
     <label for="name">Name:</label>
     <input
@@ -82,3 +83,71 @@
   />
 </form>
 {% endblock content %}
+=======
+      .topnav a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+    </style>
+    <title>Leave Application Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body style="background-color: lightgreen;"s>
+    <div class="topnav">
+      {% if request.user.member.designation == "Employee" %}
+      <a class="active" href="{% url 'ehome' %}">Home</a>
+      {% else %}
+      <a class="active" href="{% url 'mhome' %}">Home</a>
+      {% endif %}
+      <a href="{% url 'profile' %}">Profile</a>
+      {% if request.user.member.designation == "Employee" %}
+      <a href="{% url 'leave' %}">Apply for leave</a>
+      <a href="{% url 'leave_history' %}">Leave History</a>
+      {% endif %} {% if request.user.member.designation == "Manager" %}
+      <a class="active" href="{% url 'manager_leaveapproval' %}">Approve Leave</a>
+      <a href="{% url 'manageraddemp' %}">Add member</a>
+      <a href="{% url 'teams' %}">Teams</a>
+      {% endif %}
+      <a href="{% url 'logout' %}">Log Out</a>
+    </div>
+
+    <h1><center>Leave Application Form</center></h1>
+        <form style="width : 500px; padding : 30px" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="emp_id">Employee ID</label>
+            <input type="text" value="{{request.user.id}}" readonly class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name = "emp_id">
+          </div>
+
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input readonly type="text" name="name" class="form-control" id="name" value="{{request.user.member.fname}} {{request.user.member.lname}}">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input readonly type="email" class="form-control" id="email" value="{{request.user.member.email}}">
+          </div>
+
+          <div class="form-group">
+          <label for="start_date">Start Date:</label><br>
+          <input type="date" id="start_date" name="start_date" required/><br />
+          </div>
+
+          <div class="form-group">
+          <label for="end_date">End Date:</label><br>
+          <input type="date" id="end_date" name="end_date" required/>
+          </div>
+
+          <div class="form-group">
+          <label for="reason">Reason for Leave:</label><br>
+          <textarea id="reason" name="reason" required></textarea><br /><br />
+          </div>
+
+          <button type="submit" class="btn btn-primary" onclick="alert('Leave has been applied.')">Submit</button>
+        </form>
+    </div>
+
+  </body>
+</html>
+>>>>>>> Stashed changes
