@@ -177,16 +177,39 @@ def approve(request, leaveID):
     # print(lf)
     lf.status = "Approved"
     lf.save()
+    try:
+        thread = Thread(
+            target=sendMail,
+            args=(
+                emp.email,
+                "Leave Approved",
+                f"Your leave from {lf.start_date} to {lf.end_date} has been approved",
+            ),
+        )
+        thread.start()
+    except Exception as e:
+        print(e)
     return redirect("manager_leaveapproval")
 
 
 @user_passes_test(is_manager, login_url="ehome")
 def reject(request, leaveID):
     lf = LeaveForm.objects.get(id=leaveID)
-    # print(lf)
+    emp = Member.objects.get(user=lf.employee)
     lf.status = "Rejected"
     lf.save()
-    # print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", lf.status)
+    try:
+        thread = Thread(
+            target=sendMail,
+            args=(
+                emp.email,
+                "Leave Rejected",
+                f"Your leave from {lf.start_date} to {lf.end_date} has been rejected",
+            ),
+        )
+        thread.start()
+    except Exception as e:
+        print(e)
     return redirect("manager_leaveapproval")
 
 

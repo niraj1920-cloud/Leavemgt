@@ -27,6 +27,8 @@ def sendMail(toEmailAddress, subject, content):
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login(fromEmail, fromPassword)
             print("Sending mail to: ", toEmailAddress)
+            print("Subject:", subject)
+            print("Content:", content)
             smtp.sendmail(fromEmail, toEmailAddress, msg.as_string())
             print("Mail sent")
     except Exception as e:
