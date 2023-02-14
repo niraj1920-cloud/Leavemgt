@@ -111,6 +111,7 @@ env.bak/
 venv.bak/
 vivenv/
 myEnv/
+niki/
 
 # Spyder project settings
 .spyderproject
