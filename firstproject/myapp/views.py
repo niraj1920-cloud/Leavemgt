@@ -87,6 +87,8 @@ def leave(request):
             )
             leaveform.save()
             managers = Member.objects.filter(designation="Manager")
+
+            # Send mail to all managers
             for manager in managers:
                 try:
                     thread = Thread(
@@ -100,6 +102,20 @@ def leave(request):
                     thread.start()
                 except Exception as e:
                     print(e)
+
+            # Send mail to employee
+            try:
+                thread = Thread(
+                    target=sendMail,
+                    args=(
+                        request.user.email,
+                        "Leave Applied",
+                        f"You have applied for a leave from {start_date} to {end_date}",
+                    ),
+                )
+                thread.start()
+            except Exception as e:
+                print(e)
             messages.success(request, "Leave Details submitted successfully!")
         else:
             for ele in temp:
@@ -125,6 +141,7 @@ def leave(request):
                 )
                 leaveform.save()
                 managers = Member.objects.filter(designation="Manager")
+                # Send mail to all managers
                 for manager in managers:
                     try:
                         thread = Thread(
@@ -138,6 +155,20 @@ def leave(request):
                         thread.start()
                     except Exception as e:
                         print(e)
+
+                # Send mail to employee
+                try:
+                    thread = Thread(
+                        target=sendMail,
+                        args=(
+                            request.user.email,
+                            "Leave Applied",
+                            f"You have applied for a leave from {start_date} to {end_date}",
+                        ),
+                    )
+                    thread.start()
+                except Exception as e:
+                    print(e)
                 messages.success(request, "Leave Details submitted successfully!")
     return render(request, "leave.html", {"profile": profile})
 
