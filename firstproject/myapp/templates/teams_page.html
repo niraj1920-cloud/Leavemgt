@@ -7,24 +7,100 @@
   <p onclick="showEmployees('others')">Others</p>
 </div>
 <div id="team1" class="employees">
-  {% for employee in team1_employees %}
-  <p>{{ employee.fname }} {{ employee.lname }}</p>
-  {% endfor %}
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Employee ID</th>
+        <th>Employee Name</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in team1_employees %}
+      <tr>
+        <td>{{ employee.user.id }}</td>
+        <td>{{ employee.fname }} {{ employee.lname }}</td>
+        <td>{{ employee.department }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.phone_number }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 <div id="team2" class="employees">
-  {% for employee in team2_employees %}
-  <p>{{ employee.fname }} {{ employee.lname }}</p>
-  {% endfor %}
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Employee ID</th>
+        <th>Employee Name</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in team2_employees %}
+      <tr>
+        <td>{{ employee.user.id }}</td>
+        <td>{{ employee.fname }} {{ employee.lname }}</td>
+        <td>{{ employee.department }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.phone_number }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 <div id="team3" class="employees">
-  {% for employee in team3_employees %}
-  <p>{{ employee.fname }} {{ employee.lname }}</p>
-  {% endfor %}
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Employee ID</th>
+        <th>Employee Name</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in team3_employees %}
+      <tr>
+        <td>{{ employee.user.id }}</td>
+        <td>{{ employee.fname }} {{ employee.lname }}</td>
+        <td>{{ employee.department }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.phone_number }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 <div id="others" class="others">
-  {% for employee in others_employees %}
-  <p>{{ employee.fname }} {{ employee.lname }}</p>
-  {% endfor %}
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Employee ID</th>
+        <th>Employee Name</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in team1_employees %}
+      <tr>
+        <td>{{ employee.user.id }}</td>
+        <td>{{ employee.fname }} {{ employee.lname }}</td>
+        <td>{{ employee.department }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.phone_number }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 {% endblock content %}
