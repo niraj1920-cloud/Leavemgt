@@ -77,26 +77,29 @@ def leave(request):
             reason=reason,
             days=days,
         )
-        managers = Member.objects.filter(designation="Manager")
-        for manager in managers:
-            try:
-                thread = Thread(
-                    target=sendMail,
-                    args=(
-                        manager.email,
-                        "Leave Approval",
-                        f"{request.user.member.fname} {request.user.member.lname} has requested a leave<br />Duration : {start_date} to {end_date} ({days} days)<br >Reason :{reason}",
-                    ),
-                )
-                thread.start()
-            except Exception as e:
-                print(e)
 
-        if temp.__len__() == 0:
+        if start_date > end_date:
+            msg = "End date can't be less than start date"
+            messages.error(request, msg)
+        elif temp.__len__() == 0:
             Member.objects.filter(user=request.user.member.user).update(
                 leave_balance=request.user.member.leave_balance - days
             )
             leaveform.save()
+            managers = Member.objects.filter(designation="Manager")
+            for manager in managers:
+                try:
+                    thread = Thread(
+                        target=sendMail,
+                        args=(
+                            manager.email,
+                            "Leave Approval",
+                            f"{request.user.member.fname} {request.user.member.lname} has requested a leave<br />Duration : {start_date} to {end_date} ({days} days)<br >Reason :{reason}",
+                        ),
+                    )
+                    thread.start()
+                except Exception as e:
+                    print(e)
             messages.success(request, "Leave Details submitted successfully!")
         else:
             for ele in temp:
@@ -121,6 +124,20 @@ def leave(request):
                     leave_balance=request.user.member.leave_balance - days
                 )
                 leaveform.save()
+                managers = Member.objects.filter(designation="Manager")
+                for manager in managers:
+                    try:
+                        thread = Thread(
+                            target=sendMail,
+                            args=(
+                                manager.email,
+                                "Leave Approval",
+                                f"{request.user.member.fname} {request.user.member.lname} has requested a leave<br />Duration : {start_date} to {end_date} ({days} days)<br >Reason :{reason}",
+                            ),
+                        )
+                        thread.start()
+                    except Exception as e:
+                        print(e)
                 messages.success(request, "Leave Details submitted successfully!")
     return render(request, "leave.html", {"profile": profile})
 
