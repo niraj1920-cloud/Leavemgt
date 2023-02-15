@@ -36,3 +36,7 @@ urlpatterns += [
 urlpatterns += [
     path("add_employee", views.add_employee, name="add_employee"),
 ]
+
+urlpatterns += [
+    path("roster/<leaveID>", views.roster, name="roster"),
+]

@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .countLeaves import leave_days
 from django.http import HttpResponse
-
+from .utils import check_date_overlap
 
 # Decorator for checking manager
 def is_manager(user):
@@ -66,7 +66,9 @@ def leave(request):
         stDate = request.POST.get("start_date")
         endDate = request.POST.get("end_date")
         reason = request.POST.get("reason")
-        temp = LeaveForm.objects.filter(employee=request.user.member.user).values()
+        previousLeaves = LeaveForm.objects.filter(
+            employee=request.user.member.user
+        ).values()
         start_date = datetime.strptime(stDate, "%Y-%m-%d").date()
         end_date = datetime.strptime(endDate, "%Y-%m-%d").date()
         days = leave_days(stDate, endDate)
@@ -81,14 +83,10 @@ def leave(request):
         if start_date > end_date:
             msg = "End date can't be less than start date"
             messages.error(request, msg)
-        elif temp.__len__() == 0:
-            Member.objects.filter(user=request.user.member.user).update(
-                leave_balance=request.user.member.leave_balance - days
-            )
+        elif previousLeaves.__len__() == 0:
             leaveform.save()
-            managers = Member.objects.filter(designation="Manager")
-
             # Send mail to all managers
+            managers = Member.objects.filter(designation="Manager")
             for manager in managers:
                 try:
                     thread = Thread(
@@ -118,15 +116,15 @@ def leave(request):
                 print(e)
             messages.success(request, "Leave Details submitted successfully!")
         else:
-            for ele in temp:
+            for previousLeave in previousLeaves:
                 if (
-                    ele["end_date"] > start_date
-                    and ele["start_date"] < end_date
+                    previousLeave["end_date"] > start_date
+                    and previousLeave["start_date"] < end_date
                     and start_date < end_date
                 ):
                     msg = "Leave dates correspond to previously applied leave:"
                     messages.error(request, msg)
-                    for key, value in ele.items():
+                    for key, value in previousLeave.items():
                         if (
                             key == "start_date"
                             or key == "end_date"
@@ -136,9 +134,6 @@ def leave(request):
                             messages.error(request, "\n" + str(key) + ":" + str(value))
                     break
             else:
-                Member.objects.filter(user=request.user.member.user).update(
-                    leave_balance=request.user.member.leave_balance - days
-                )
                 leaveform.save()
                 managers = Member.objects.filter(designation="Manager")
                 # Send mail to all managers
@@ -404,6 +399,32 @@ def add_employee(request):
         except Exception as e:
             print(e)
     return render(request, "add_employee.html")
+
+
+def roster(request, leaveID):
+    leave = LeaveForm.objects.get(id=leaveID)
+    employee = leave.employee
+    team = employee.member.team
+
+    leavesInSameTeam = LeaveForm.objects.filter(
+        employee__member__team=team,
+        status="Approved",
+        employee__member__designation="Employee",
+    ).exclude(employee=employee)
+
+    leaveOnSameDate = []
+    for leaveInSameTeam in leavesInSameTeam:
+        if check_date_overlap(
+            leave.start_date,
+            leave.end_date,
+            leaveInSameTeam.start_date,
+            leaveInSameTeam.end_date,
+        ):
+            leaveOnSameDate.append(leaveInSameTeam)
+        print()
+
+    context = {"leaves": leaveOnSameDate, "employee": employee}
+    return render(request, "roster.html", context)
 
 
 # Password reset
