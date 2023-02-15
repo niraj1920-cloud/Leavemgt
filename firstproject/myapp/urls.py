@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views  # import this
 
 urlpatterns = [
     path("", views.ehome, name="ehome"),
@@ -23,11 +24,14 @@ urlpatterns = [
     path("reject/<leaveID>", views.reject, name="reject"),
 ]
 
-
 urlpatterns += [
-    path("forgot_password", views.forgot_password, name="forgot_password"),
-    path("reset_password/", views.reset_password, name="reset_password"),
+    path("password_reset", views.password_reset_request, name="password_reset"),
 ]
+
+# urlpatterns += [
+#     path("forgot_password", views.forgot_password, name="forgot_password"),
+#     path("reset_password/", views.reset_password, name="reset_password"),
+# ]
 
 urlpatterns += [
     path("add_employee", views.add_employee, name="add_employee"),
