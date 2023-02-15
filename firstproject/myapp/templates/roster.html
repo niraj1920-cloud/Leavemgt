@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% load static %} {% block content %} {% comment %}
+<link rel="stylesheet" href="{% static '/css/mhome.css' %}" /> {% endcomment %}
+<h1>
+  {{employee.member.fname}} {{employee.member.lname}} is from
+  {{employee.member.team}} team
+</h1>
+<h3>
+  Here are the employee from {{employee.member.team}} team that are already
+  approved for leaves on those dates
+</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Employee ID</th>
+      <th>Employee Name</th>
+      <th>Leave Start Date</th>
+      <th>Leave End Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for leave in leaves %}
+    <tr>
+      <td>{{leave.employee.id}}</td>
+      <td>{{leave.employee.member.fname}} {{leave.employee.member.lname}}</td>
+      <td>{{leave.start_date}}</td>
+      <td>{{leave.end_date}}</td>
+    </tr>
+    {% endfor %} {% endblock content %}
+  </tbody>
+</table>
