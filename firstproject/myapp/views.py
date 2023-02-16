@@ -396,6 +396,18 @@ def add_employee(request):
                 address=address,
                 leave_balance=leave_balance,
             )
+            try:
+                thread = Thread(
+                    target=sendMail,
+                    args=(
+                        email,
+                        "Successfully registered to 127.0.0.1",
+                        f"You have been registered to the employee portal.<br />Visit 127.0.0.1 to login.<br />Username: {username}<br />Password: {password}<br />Please change your password at the earliest and login to view further details.",
+                    ),
+                )
+                thread.start()
+            except Exception as e:
+                print(e)
         except Exception as e:
             print(e)
     return render(request, "add_employee.html")
