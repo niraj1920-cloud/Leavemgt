@@ -182,15 +182,13 @@ def leave_history(request):
 
 @login_required(login_url="login")
 def profile(request):
-    # username = request.user.username
-    # print(username.capitalize())
-    # profile = Employee.objects.get(fname=username.capitalize())
-    # profile = request.user.member
     if request.method == "POST":
         number = request.POST["number"]
         emailId = request.POST["emailId"]
         empId = request.POST["empId"]
-        Member.objects.filter(id=empId).update(email=emailId, phone_number=number)
+        (Member.objects.filter(user__id=empId)).update(
+            email=emailId, phone_number=number
+        )
     return render(request, "profile.html")
 
 

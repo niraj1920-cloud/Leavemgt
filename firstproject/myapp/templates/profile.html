@@ -8,7 +8,8 @@
 <!-- Profile container -->
 <div class="profile-container">
   <h2>Personal Information</h2>
-  <form>
+  <form method="POST">
+    {% csrf_token %}
     <div class="profile-details">
       <p>
         <span class="profile-label">First Name:</span>
@@ -22,7 +23,12 @@
 
       <p>
         <span class="profile-label">Employee ID:</span>
-        <input readonly type="text" value="{{ request.user.id}}" />
+        <input
+          readonly
+          type="text"
+          value="{{ request.user.id }}"
+          name="empId"
+        />
       </p>
 
       <p>
@@ -31,15 +37,25 @@
       </p>
 
       <p>
-            <span class="profile-label">Phone Number:</span>
-            <input type="number" name="number" oninput="validation(this)" id="phone" value="{{ request.user.member.phone_number }}">
-            <span id="error1"></span>
-          </p>
+        <span class="profile-label">Phone Number:</span>
+        <input
+          type="number"
+          name="number"
+          oninput="validation(this)"
+          id="phone"
+          value="{{ request.user.member.phone_number }}"
+        />
+        <span id="error1"></span>
+      </p>
 
-          <p>
-            <span class="profile-label">Email:</span>
-            <input  type="email" name="emailId" value="{{ request.user.member.email }}">
-          </p>
+      <p>
+        <span class="profile-label">Email:</span>
+        <input
+          type="email"
+          name="emailId"
+          value="{{ request.user.member.email }}"
+        />
+      </p>
 
       <p>
         <span class="profile-label">Department:</span>
@@ -70,7 +86,9 @@
       </p>
 
       <br />
-      <button type="submit" id="submit" onclick="alert('Profile Updated')">Update</button>
+      <button type="submit" id="submit" onclick="alert('Profile Updated')">
+        Update
+      </button>
     </div>
   </form>
 </div>
